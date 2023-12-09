@@ -11,10 +11,18 @@ use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+
+
+
 
 final class PedidoTable extends PowerGridComponent
 {
+
+    use WithExport;
+
+    
     public function datasource(): ?Collection
     {
         return Pedido::select(
@@ -50,10 +58,10 @@ final class PedidoTable extends PowerGridComponent
     {
         return PowerGrid::columns()
             ->addColumn('id')
-            ->addColumn('data_solicitacao')
             ->addColumn('numero_pedido')
-            ->addColumn('cidade')
             ->addColumn('numero_nota')
+            ->addColumn('data_solicitacao')
+            ->addColumn('cidade')
             ->addColumn('valor_frete')
             ->addColumn('valor_descarga')
             ->addColumn('cliente_id')
@@ -67,17 +75,18 @@ final class PedidoTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
+            Column::make('pedido', 'numero_pedido')
+                ->sortable(),
+
+            Column::make('numero_nota', 'numero_nota')
+                ->sortable(),
+
             Column::make('data solicitacao', 'data_solicitacao')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('pedido', 'numero_pedido')
-                ->sortable(),
 
             Column::make('cidade', 'cidade')
-                ->sortable(),
-
-            Column::make('numero_nota', 'numero_nota')
                 ->sortable(),
 
             Column::make('valor_frete', 'valor_frete')

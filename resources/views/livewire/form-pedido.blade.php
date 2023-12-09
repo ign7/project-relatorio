@@ -111,6 +111,13 @@
                     </button>
                 </div>
 
+                <div class="flex flex-col gap-2 w-1/5 pl-4 pt-7">
+                    <button wire:click.prevent="query"
+                        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        exportar
+                    </button>
+                </div>
+
             </div>
         </div>
 
