@@ -25,4 +25,18 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/pedidos', function () {
+        return view('pedidos');
+    })->name('pedidos');
+
+
+    Route::get('/cargas', function () {
+        return view('cargas');
+    })->name('cargas');
+
+
+    Route::get('/clientes', function () {
+        return view('clientes');
+    })->name('clientes');
 });
