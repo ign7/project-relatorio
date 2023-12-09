@@ -10,20 +10,22 @@ class Pedido extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'numero_pedido',
         'cidade',
         'numero_nota',
         'valor_frete',
         'total_valor_frete',
         'valor_descarga',
-        'user_id', 
-        'cliente_id'
+        'cliente_id',
+        'carga_id',
     ];
 
-    public function user()
+    public function carga()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Carga::class);
     }
+    
 
     public function cliente()
     {

@@ -10,6 +10,7 @@ class Cliente extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'nome',
         'pedido_id'
     ];
