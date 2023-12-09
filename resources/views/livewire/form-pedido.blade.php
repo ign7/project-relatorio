@@ -29,7 +29,7 @@
             </div>
         @endif
 
-        <form wire:submit.prevent="save">
+        <div >
             <div class="flex py-2">
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Numero Do Pedido:</x-label>
@@ -93,7 +93,7 @@
                 </div>
 
             </div>
-        </form>
+        </div>
 
     </div>
 </div>
