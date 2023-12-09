@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="flex flex-col gap-2 w-1/5 pl-4 pt-7">
-                    <button wire:click.prevent="query"
+                    <button wire:click.prevent="exportar"
                         class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         exportar
                     </button>
@@ -121,5 +121,10 @@
             </div>
         </div>
 
+    </div>
+
+
+    <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        @livewire('pedido-table', ['result' => $result])
     </div>
 </div>

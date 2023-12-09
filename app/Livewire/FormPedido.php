@@ -27,6 +27,7 @@ class FormPedido extends Component
     {
         $this->cargas = Carga::All();
         $this->clientes = Cliente::All();
+        $this->query();
     }
 
     public function rules()
@@ -75,11 +76,9 @@ class FormPedido extends Component
     public function query()
     {
 
-        $pedidos = Pedido::all();
-
-        $result = [];
 
         $pedidos = Pedido::all();
+        /*  $this->result= Pedido::all(); */
 
         foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
@@ -90,6 +89,7 @@ class FormPedido extends Component
 
             $cliente_id = $pedido->cliente_id;
             $carga_id = $pedido->carga_id;
+            $descarga = $pedido->valor_descarga;
 
             $selectcarga = Carga::find($carga_id);
 
@@ -99,37 +99,38 @@ class FormPedido extends Component
 
             $nome_cliente = $selectcliente ? $selectcliente->nome : null;
 
-            // Adiciona os dados ao array $result
+
             $this->result[] = [
-                'num_pedido' => $num_pedido,
+                'numero_pedido' => $num_pedido,
                 'cidade' => $cidade,
-                'num_nota_fiscal' => $num_nota_fiscal,
+                'numero_nota' => $num_nota_fiscal,
                 'valor_frete' => $valor_frete,
+                'valor_descarga' => $descarga,
                 'data_solicitacao' => $data_solicitacao,
-                'cliente_id' => $cliente_id,
-                'carga_id' => $carga_id,
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
             ];
         }
 
-        $this->exportar();
+        return $this->result;
     }
 
     public function exportar()
     {
         $header  = [
-            'num_pedido',
+            'pedido',
             'cidade',
-            'num_nota_fiscal',
+            'notafiscais',
             'valor_frete',
-            'data_solicitacao',
-            'cliente_id',
-            'carga_id',
+            'valor_descarga',
+            'data',
+            'numero_carga',
+            'nome_cliente',
         ];
 
 
-        $records = $this->result;
+        $records = $this->query();
+
 
         // Crie um escritor CSV
         $csv = Writer::createFromFileObject(new SplTempFileObject());

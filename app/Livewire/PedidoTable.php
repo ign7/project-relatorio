@@ -21,11 +21,14 @@ final class PedidoTable extends PowerGridComponent
 {
 
     use WithExport;
-
     
-    public function datasource(): ?Collection
+    public $result = array();
+    
+    public function datasource(): array
     {
-        return Pedido::select(
+
+        return $this->result;
+        /* return Pedido::select(
             'id',
             'numero_pedido',
             'cidade',
@@ -36,7 +39,7 @@ final class PedidoTable extends PowerGridComponent
             'cliente_id',
             'carga_id'
 
-        )->get();
+        )->get(); */
     }
 
     public function setUp(): array
