@@ -12,6 +12,7 @@ class Carga extends Model
     protected $fillable = [
         'id',
         'numero_carga',
+        'valor_total_frete',
         'user_id'
     ];
 

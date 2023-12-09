@@ -17,6 +17,7 @@ class Pedido extends Model
         'valor_frete',
         'total_valor_frete',
         'valor_descarga',
+        'data_solicitacao',
         'cliente_id',
         'carga_id',
     ];

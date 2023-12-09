@@ -33,14 +33,25 @@
             <div class="flex py-2">
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Numero Do Pedido:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="num_pedido" />
                 </div>
 
                 <div class="w-1/2 flex flex-col gap-2 pl-6">
                     <x-label for="selectuser" class="">Cliente:</x-label>
-                    <select {{-- wire:model.live="selectedOS" id="selectuser" {{ $desabilitainput ? 'disabled' : '' }} --}} class="rounded-md">
+                    <select {{-- wire:model.live="cliente_id" id="selectuser" {{ $desabilitainput ? 'disabled' : '' }} --}} class="rounded-md">
 
                         <option value="" selected>-- Clientes --</option>
+                        {{-- @foreach ($oss as $os)
+                           <option value="{{ $os->id }}">{{ $os->nome }}</option>
+                       @endforeach --}}
+                    </select>
+                </div>
+
+                <div class="w-1/2 flex flex-col gap-2 pl-6">
+                    <x-label for="selectuser" class="">Carga:</x-label>
+                    <select {{-- wire:model.live="=carga_id" id="selectuser" {{ $desabilitainput ? 'disabled' : '' }} --}} class="rounded-md">
+
+                        <option value="" selected>-- Cargas --</option>
                         {{-- @foreach ($oss as $os)
                            <option value="{{ $os->id }}">{{ $os->nome }}</option>
                        @endforeach --}}
@@ -52,25 +63,25 @@
                 <div class="flex flex-col gap-2 w-1/3 pr-4">
                     <x-label for="selectcliente" class="">Cidade:</x-label>
 
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="" />
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="cidade" />
 
-                    @error('selectedCliente')
+                    @error('cidade')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="flex flex-col gap-2 w-1/3 px-2">
                     <x-label for="selectcontrato" class="">N°/Nota Fiscal:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="" />
-                    @error('selectedContrato')
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="num_nota_fiscal" />
+                    @error('num_nota_fiscal')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="flex flex-col gap-2 w-1/3 pl-4">
                     <x-label for="selectcontrato" class="">Valor Frete:</x-label>
-                    <x-input value="" class="rounded-md" type="number" wire:model.live="" />
-                    @error('selectedEmpreendimento')
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="valor_frete" />
+                    @error('valor_frete')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -79,8 +90,16 @@
             <div class="flex py-2">
                 <div class="flex flex-col gap-2 w-1/3 pr-4  ">
                     <x-label for="inicaldatePicked" class="">Data Solicitação:</x-label>
-                    <x-input value="" class="rounded-md" type="date" wire:model.live="" />
-                    @error('inicialdatePicked')
+                    <x-input value="" class="rounded-md" type="date" wire:model.live="data_solicitacao" />
+                    @error('data_solicitacao')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="flex flex-col gap-2 w-1/3 pr-4  ">
+                    <x-label for="inicaldatePicked" class="">Descarga:</x-label>
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="descarga" />
+                    @error('descarga')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

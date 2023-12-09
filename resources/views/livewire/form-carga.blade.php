@@ -28,9 +28,9 @@
                 </span>
             </div>
         @endif
-              
-        <div >
-            
+
+        <div>
+
             <div class="py-6">
                 <div class="">
                     <h1 class="font-bold text-3xl pb-4 border-b-2 ">Cadastrar Cargas</h1>
@@ -38,19 +38,23 @@
             </div>
 
             <div class="flex py-2">
-                
-                    <div class="w-1/2 flex flex-col gap-2 pr-6">
-                        <x-label for="selectuser" class="">Nome Carga:</x-label>
-                        <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
-                    </div>
-                
 
-                
-                    <div class="w-1/2 flex flex-col gap-2 pr-6">
-                        <x-label for="selectuser" class="">Pesquisar Carga:</x-label>
-                        <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
-                    </div>
-               
+                <div class="w-1/2 flex flex-col gap-2 pr-6">
+                    <x-label for="selectuser" class="">Nome Carga:</x-label>
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="nome" />
+                    @error('nome')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+
+
+
+                <div class="w-1/2 flex flex-col gap-2 pr-6">
+                    <x-label for="selectuser" class="">Pesquisar Carga:</x-label>
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
+                </div>
+
             </div>
 
             <div class="flex py-2 justify-between">
@@ -72,9 +76,9 @@
 
             </div>
         </div>
-  
+
     </div>
 
 
-    
+
 </div>
