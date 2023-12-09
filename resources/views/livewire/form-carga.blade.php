@@ -40,8 +40,8 @@
             <div class="flex py-2">
 
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
-                    <x-label for="selectuser" class="">Nome Carga:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="nome" />
+                    <x-label for="selectuser" class="">Num ° Carga:</x-label>
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="nome" />
                     @error('nome')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror

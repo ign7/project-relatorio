@@ -10,19 +10,19 @@ use App\Models\Cliente;
 class FormPedido extends Component
 {
 
-   public $valor_frete,$num_nota_fiscal,$num_pedido,$cidade,$cliente_id,$nome_cliente,$pedido,$showAlert,$data_solicitacao,$descarga;
+   public $valor_frete,$num_nota_fiscal,$num_pedido,$cidade,$cliente_id,$nome_cliente,$pedido,$showAlert,$data_solicitacao,$descarga,$carga_id;
 
   public $cargas,$clientes;
 
 
    public function mount(){
      $this->cargas=Carga::All();
+     $this->clientes=Cliente::All();
    }
 
     public function rules(){
         $rule=[
-            
-            'num_pedido'=>'required',
+            'num_pedido'=>'required|number',
             'cidade'=>'required',
             'num_nota_fiscal'=>'required',
             'valor_frete'=>'required',
@@ -35,22 +35,23 @@ class FormPedido extends Component
     }
 
     public function save(){
+
         
         $this->validate();
 
         $this->pedido=Pedido::create([
-            'numero_pedido',
-            'cidade',
-            'numero_nota',
-            'valor_frete',
-            'total_valor_frete',
-            'valor_descarga',
-            'data_solicitacao',
-            'cliente_id',
-            'carga_id',
+            'numero_pedido'=>$this->num_pedido,
+            'cidade'=>$this->cidade,
+            'numero_nota'=>$this->num_nota_fiscal,
+            'valor_frete'=>$this->valor_frete,
+            'data_solicitacao'=>$this->data_solicitacao,
+            'cliente_id'=>$this->cliente_id,
+            'carga_id'=>$this->carga_id,
         ]);
+
         $this->showAlert = true;
-        session()->flash('sucesso', 'Cliente cadastrado !!');
+
+        session()->flash('sucesso', 'Pedido  cadastrado !!');
     }
 
 

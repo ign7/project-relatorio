@@ -33,28 +33,28 @@
             <div class="flex py-2">
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Numero Do Pedido:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="num_pedido" />
-                </div>
-
-                <div class="w-1/2 flex flex-col gap-2 pl-6">
-                    <x-label for="selectuser" class="">Cliente:</x-label>
-                    <select {{-- wire:model.live="cliente_id" id="selectuser" {{ $desabilitainput ? 'disabled' : '' }} --}} class="rounded-md">
-
-                        <option value="" selected>-- Clientes --</option>
-                        {{-- @foreach ($oss as $os)
-                           <option value="{{ $os->id }}">{{ $os->nome }}</option>
-                       @endforeach --}}
-                    </select>
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="num_pedido" />
                 </div>
 
                 <div class="w-1/2 flex flex-col gap-2 pl-6">
                     <x-label for="selectuser" class="">Carga:</x-label>
-                    <select {{-- wire:model.live="=carga_id" id="selectuser" {{ $desabilitainput ? 'disabled' : '' }} --}} class="rounded-md">
+                    <select  wire:model.live="carga_id" id="selectuser"   class="rounded-md">
 
                         <option value="" selected>-- Cargas --</option>
-                        {{-- @foreach ($oss as $os)
-                           <option value="{{ $os->id }}">{{ $os->nome }}</option>
-                       @endforeach --}}
+                         @foreach ($cargas as $carga)
+                           <option value="{{ $carga->id }}">{{ $carga->numero_carga }}</option>
+                       @endforeach 
+                    </select>
+                </div>
+
+                <div class="w-1/2 flex flex-col gap-2 pl-6">
+                    <x-label for="selectuser" class="">Cliente:</x-label>
+                    <select  wire:model.live="cliente_id" id="selectuser"   class="rounded-md">
+
+                        <option value="" selected>-- clientes --</option>
+                         @foreach ($clientes as $cliente)
+                           <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                       @endforeach 
                     </select>
                 </div>
             </div>
