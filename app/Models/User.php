@@ -61,7 +61,7 @@ class User extends Authenticatable
     ];
 
 
-    public function pedidos(){
-        return $this->hasMany(Pedido::class);
+    public function cargas(){
+        return $this->hasMany(Carga::class);
     }
 }
