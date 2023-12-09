@@ -22,7 +22,7 @@ class FormPedido extends Component
 
     public function rules(){
         $rule=[
-            'num_pedido'=>'required|number',
+            'num_pedido'=>'required',
             'cidade'=>'required',
             'num_nota_fiscal'=>'required',
             'valor_frete'=>'required',

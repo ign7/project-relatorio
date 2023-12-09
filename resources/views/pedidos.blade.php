@@ -5,6 +5,10 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @livewire('form-pedido')
             </div>
+
+            <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                @livewire('pedido-table')
+            </div>
         </div>
     </div>
 </x-app-layout>
