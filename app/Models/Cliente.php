@@ -13,6 +13,7 @@ class Cliente extends Model
         'id',
         'nome',
         'pedido_id'
+        
     ];
 
     // Adicione a relação com o modelo Pedido
