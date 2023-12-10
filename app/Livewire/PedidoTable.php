@@ -21,25 +21,13 @@ final class PedidoTable extends PowerGridComponent
 {
 
     use WithExport;
-    
+
     public $result = array();
-    
+
     public function datasource(): array
     {
 
         return $this->result;
-        /* return Pedido::select(
-            'id',
-            'numero_pedido',
-            'cidade',
-            'numero_nota',
-            'valor_frete',
-            'valor_descarga',
-            'data_solicitacao',
-            'cliente_id',
-            'carga_id'
-
-        )->get(); */
     }
 
     public function setUp(): array
@@ -67,8 +55,8 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('cidade')
             ->addColumn('valor_frete')
             ->addColumn('valor_descarga')
-            ->addColumn('cliente_id')
-            ->addColumn('carga_id');
+            ->addColumn('nome_cliente')
+            ->addColumn('numero_carga');
     }
 
     public function columns(): array
@@ -84,6 +72,12 @@ final class PedidoTable extends PowerGridComponent
             Column::make('numero_nota', 'numero_nota')
                 ->sortable(),
 
+            Column::make('carga', 'numero_carga')
+                ->sortable(),
+
+            Column::make('Cliente', 'nome_cliente')
+                ->sortable(),
+
             Column::make('data solicitacao', 'data_solicitacao')
                 ->searchable()
                 ->sortable(),
@@ -96,11 +90,6 @@ final class PedidoTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('valor_descarga', 'valor_descarga')
-                ->sortable(),
-            Column::make('cliente_id', 'cliente_id')
-                ->sortable(),
-
-            Column::make('carga_id', 'carga_id')
                 ->sortable(),
 
             Column::action('Action')

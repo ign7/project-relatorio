@@ -20,14 +20,13 @@ class FormPedido extends Component
 
     public $valor_frete, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
 
-    public $cargas, $clientes, $result = array();
+    public $cargas, $clientes, $result = array(),$show;
 
 
     public function mount()
     {
         $this->cargas = Carga::All();
         $this->clientes = Cliente::All();
-        $this->query();
     }
 
     public function rules()
@@ -45,9 +44,13 @@ class FormPedido extends Component
         return $rule;
     }
 
+    public function showtable(){
+        $this->show=true;
+        $this->query();
+    }
+
     public function save()
     {
-
 
         $this->validate();
 
@@ -56,14 +59,15 @@ class FormPedido extends Component
             'cidade' => $this->cidade,
             'numero_nota' => $this->num_nota_fiscal,
             'valor_frete' => $this->valor_frete,
-            'data_solicitacao' => $this->data_solicitacao,
+            'data_solicitacao' => $this->data_solicitacao = date('d/m/Y', strtotime($this->data_solicitacao)),
+            'valor_descarga' => $this->descarga,
             'cliente_id' => $this->cliente_id,
             'carga_id' => $this->carga_id,
         ]);
 
         $this->showAlert = true;
-
         session()->flash('sucesso', 'Pedido  cadastrado !!');
+        $this->showtable();
     }
 
 
@@ -75,11 +79,8 @@ class FormPedido extends Component
 
     public function query()
     {
-
-
         $pedidos = Pedido::all();
-        /*  $this->result= Pedido::all(); */
-
+       
         foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
             $cidade = $pedido->cidade;
@@ -101,12 +102,13 @@ class FormPedido extends Component
 
 
             $this->result[] = [
+                'id'=>$pedido->id,
                 'numero_pedido' => $num_pedido,
                 'cidade' => $cidade,
                 'numero_nota' => $num_nota_fiscal,
                 'valor_frete' => $valor_frete,
                 'valor_descarga' => $descarga,
-                'data_solicitacao' => $data_solicitacao,
+                'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
             ];
@@ -132,25 +134,25 @@ class FormPedido extends Component
         $records = $this->query();
 
 
-        // Crie um escritor CSV
+       
         $csv = Writer::createFromFileObject(new SplTempFileObject());
 
-        // Insira o cabeçalho
+       
         $csv->insertOne($header);
 
-        // Insira todos os registros
+       
         $csv->insertAll($records);
 
-        // Obtenha o conteúdo do CSV como uma string
+      
         $csvContent = $csv->toString();
 
-        // Especifique o caminho do arquivo CSV
-        $csvFilePath = storage_path('app/relatorio.csv'); // ou qualquer caminho desejado
+       
+        $csvFilePath = storage_path('app/relatorio.csv'); 
 
-        // Salve o conteúdo do CSV no arquivo
+       
         file_put_contents($csvFilePath, $csvContent);
 
-        // Agora, você pode retornar o caminho do arquivo ou fazer qualquer outra coisa com ele
+        
         return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }
 
