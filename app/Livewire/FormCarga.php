@@ -13,13 +13,13 @@ use Illuminate\Http\Response;
 class FormCarga extends Component
 {
 
-    public $nome,$carga,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
+    public $numero_carga,$carga,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
 
 
 
     public function rules(){
         $rule=[
-            'nome'=>'required',
+            'numero_carga'=>'required',
         ];
 
         return $rule;
@@ -29,19 +29,26 @@ class FormCarga extends Component
         $this->validate();
 
         $this->carga=Carga::create([
-          'numero_carga'=> $this->nome,
+          'numero_carga'=> $this->numero_carga,
           'user_id'=>auth()->id(),
         ]);
-        $this->showtable();
+        $this->show();
         $this->showAlert = true;
         session()->flash('sucesso', 'Numero de carga cadastrado !!');
        
     }
 
 
-    public function showtable(){
+    public function show(){
         $this->show=true;
+       
+    }
+
+
+    public function showtable(){
         $this->query();
+        $this->show=true;
+       
     }
 
     public function pesquisar(){       
@@ -66,7 +73,9 @@ class FormCarga extends Component
     public function query()
     {
         $cargaselecionada =Carga::find($this->selectcarga);
+
         $pedidos=$cargaselecionada->pedidos;
+
          foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
             $cidade = $pedido->cidade;
@@ -107,6 +116,7 @@ class FormCarga extends Component
     public function exportar()
     {
         $header  = [
+            'id',
             'pedido',
             'cidade',
             'notafiscais',

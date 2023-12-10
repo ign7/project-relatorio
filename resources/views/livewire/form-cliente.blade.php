@@ -42,7 +42,7 @@
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Nome Cliente:</x-label>
                     <x-input value="" class="rounded-md" type="text" wire:model.live="nome" />
-                    
+
                     @error('nome')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -51,8 +51,14 @@
 
 
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
-                    <x-label for="selectuser" class="">Pesquisar Cliente:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
+                    <x-label for="selectcliente" class="">Pesquisar Cliente:</x-label>
+                    <select wire:model.live="selectcliente" id="selectcliente" class="rounded-md">
+
+                        <option value="" selected>-- clientes --</option>
+                        @foreach ($clientes as $cliente)
+                            <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
             </div>
@@ -66,17 +72,42 @@
                     </button>
                 </div>
 
+                <div class="pr-8">
+                    <div class="flex flex-col pl-4 pb-2">
+                        <button wire:click.prevent="pesquisar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            Pesquisar
+                        </button>
+                    </div>
 
-                <div class="flex flex-col gap-2 w-1/5 pl-4 pt-7">
-                    <button wire:click.prevent="pesquisar"
-                        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Pesquisar
-                    </button>
+                    <div class="flex flex-col pl-4 pb-2">
+                        <button wire:click.prevent="exportar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            Exportar
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col pl-4">
+                        <button wire:click.prevent="limpar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            Limpar
+                        </button>
+                    </div>
+
                 </div>
+
+
 
             </div>
         </div>
 
+
+        @if ($show)
+            <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                @livewire('pedido-table', ['result' => $result])
+            </div>
+        @endif
+        
     </div>
 
 

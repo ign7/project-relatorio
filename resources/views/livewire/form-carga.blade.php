@@ -41,8 +41,8 @@
 
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Num ° Carga:</x-label>
-                    <x-input value="" class="rounded-md" type="number" wire:model.live="nome" />
-                    @error('nome')
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="numero_carga" />
+                    @error('numero_carga')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
@@ -80,10 +80,17 @@
                         </button>
                     </div>
 
+                    <div class="flex flex-col pl-4 pb-2">
+                        <button wire:click.prevent="exportar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            Exportar
+                        </button>
+                    </div>
+
                     <div class="flex flex-col pl-4">
                         <button wire:click.prevent="limpar"
                             class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                            limpar
+                            Limpar
                         </button>
                     </div>
                    

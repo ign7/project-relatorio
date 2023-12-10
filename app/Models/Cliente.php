@@ -16,8 +16,8 @@ class Cliente extends Model
     ];
 
     // Adicione a relação com o modelo Pedido
-    public function pedido()
+    public function pedidos()
     {
-        return $this->belongsTo(Pedido::class);
+        return $this->hasMany(Pedido::class);
     }
 }
