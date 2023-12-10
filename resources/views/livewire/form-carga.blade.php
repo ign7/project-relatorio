@@ -29,7 +29,7 @@
             </div>
         @endif
 
-        <div>
+        <div class="">
 
             <div class="py-6">
                 <div class="">
@@ -51,8 +51,14 @@
 
 
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
-                    <x-label for="selectuser" class="">Pesquisar Carga:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="finaldatePicked" />
+                    <x-label for="selectcarga" class="">Pesquisar Carga:</x-label>
+                    <select wire:model.live="selectcarga" id="selectcarga" class="rounded-md">
+
+                        <option value="" selected>-- Cargas --</option>
+                        @foreach ($cargas as $carga)
+                            <option value="{{ $carga->id }}">{{ $carga->numero_carga }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
             </div>
@@ -66,16 +72,33 @@
                     </button>
                 </div>
 
+                <div class="pr-8">
+                    <div class="flex flex-col pl-4 pb-2">
+                        <button wire:click.prevent="pesquisar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            Pesquisar
+                        </button>
+                    </div>
 
-                <div class="flex flex-col gap-2 w-1/5 pl-4 pt-7">
-                    <button wire:click.prevent="pesquisar"
-                        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Pesquisar
-                    </button>
+                    <div class="flex flex-col pl-4">
+                        <button wire:click.prevent="limpar"
+                            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                            limpar
+                        </button>
+                    </div>
+                   
                 </div>
+
+                
 
             </div>
         </div>
+
+        @if ($show)
+        <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            @livewire('pedido-table', ['result' => $result])
+        </div>
+    @endif
 
     </div>
 

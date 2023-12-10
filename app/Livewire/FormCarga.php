@@ -3,12 +3,17 @@
 namespace App\Livewire;
 
 use App\Models\Carga;
+use League\Csv\Reader;
+use League\Csv\Writer;
+use SplTempFileObject;
+use App\Models\Cliente;
 use Livewire\Component;
+use Illuminate\Http\Response;
 
 class FormCarga extends Component
 {
 
-    public $nome,$carga,$showAlert;
+    public $nome,$carga,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
 
 
 
@@ -27,14 +32,115 @@ class FormCarga extends Component
           'numero_carga'=> $this->nome,
           'user_id'=>auth()->id(),
         ]);
+        $this->showtable();
         $this->showAlert = true;
         session()->flash('sucesso', 'Numero de carga cadastrado !!');
+       
     }
 
+
+    public function showtable(){
+        $this->show=true;
+        $this->query();
+    }
+
+    public function pesquisar(){       
+            $this->showtable();        
+    }
+    
+
+    public function limpar(){       
+        $this->show=false;   
+        $this->result=[];     
+}
 
     public function closealert()
     {
         $this->showAlert = false;
+    }
+
+    public function mount(){
+        $this->cargas = Carga::all();
+    }
+
+    public function query()
+    {
+        $cargaselecionada =Carga::find($this->selectcarga);
+        $pedidos=$cargaselecionada->pedidos;
+         foreach ($pedidos as $pedido) {
+            $num_pedido = $pedido->numero_pedido;
+            $cidade = $pedido->cidade;
+            $num_nota_fiscal = $pedido->numero_nota;
+            $valor_frete = $pedido->valor_frete;
+            $data_solicitacao = $pedido->data_solicitacao;
+
+            $cliente_id = $pedido->cliente_id;
+            $carga_id = $pedido->carga_id;
+            $descarga = $pedido->valor_descarga;
+
+            $selectcarga = Carga::find($carga_id);
+
+            $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
+
+            $selectcliente = Cliente::find($cliente_id);
+
+            $nome_cliente = $selectcliente ? $selectcliente->nome : null;
+
+
+            $this->result[] = [
+                'id'=>$pedido->id,
+                'numero_pedido' => $num_pedido,
+                'cidade' => $cidade,
+                'numero_nota' => $num_nota_fiscal,
+                'valor_frete' => $valor_frete,
+                'valor_descarga' => $descarga,
+                'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
+                'numero_carga' => $numero_carga,
+                'nome_cliente' => $nome_cliente,
+            ];
+        } 
+
+        return $this->result;
+    }
+
+
+    public function exportar()
+    {
+        $header  = [
+            'pedido',
+            'cidade',
+            'notafiscais',
+            'valor_frete',
+            'valor_descarga',
+            'data',
+            'numero_carga',
+            'nome_cliente',
+        ];
+
+
+        $records = $this->query();
+
+
+       
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+
+       
+        $csv->insertOne($header);
+
+       
+        $csv->insertAll($records);
+
+      
+        $csvContent = $csv->toString();
+
+       
+        $csvFilePath = storage_path('app/relatorio.csv'); 
+
+       
+        file_put_contents($csvFilePath, $csvContent);
+
+        
+        return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }
 
 
