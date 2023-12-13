@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('cidade');
             $table->string('numero_nota');
             $table->decimal('valor_frete');
+            $table->string('data_solicitacao')->nullable();
             $table->decimal('total_valor_frete')->nullable();
             $table->decimal('valor_descarga')->nullable();
             $table->unsignedBigInteger('cliente_id');
