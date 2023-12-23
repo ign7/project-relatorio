@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Pedido;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
@@ -107,5 +108,30 @@ final class PedidoTable extends PowerGridComponent
 
             Column::action('Action')
         ];
+    }
+
+    protected $listners = ['excluir', 'excluir'];
+
+    public function excluir($id)
+    {
+        dump($id);
+    }
+
+
+    public function actions()
+    {
+        foreach ($this->result as $valor) {
+            return [
+                Button::add('fill-os')
+                    ->slot('Editar')
+                    ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                    ->openModal('form-pedido-modal', ['id' => $valor['id']]),
+
+                Button::add('fill-os')
+                    ->slot('Excluir')
+                    ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                    ->dispatch('excluir', ['id' => $valor['id']]),
+            ];
+        }
     }
 }
