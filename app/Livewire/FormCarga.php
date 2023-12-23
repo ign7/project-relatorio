@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
 class FormCarga extends Component
 {
 
-    public $numero_carga,$carga,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
+    public $numero_carga,$carga,$mode,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
 
 
 
@@ -72,6 +72,7 @@ class FormCarga extends Component
 
     public function query()
     {
+        $this->mode='carga';
         $cargaselecionada =Carga::find($this->selectcarga);
 
         $pedidos=$cargaselecionada->pedidos;
@@ -94,7 +95,8 @@ class FormCarga extends Component
             $selectcliente = Cliente::find($cliente_id);
 
             $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-
+             
+            $totalfrete=$cargaselecionada->valor_total_frete+=$pedido->valor_frete;
 
             $this->result[] = [
                 'id'=>$pedido->id,
@@ -106,6 +108,7 @@ class FormCarga extends Component
                 'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
+                'valor_total_frete_carga' =>$totalfrete,
             ];
         } 
 

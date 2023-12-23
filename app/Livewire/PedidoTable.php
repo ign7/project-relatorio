@@ -22,12 +22,22 @@ final class PedidoTable extends PowerGridComponent
 
     use WithExport;
 
-    public $result = array();
+    public $result = array(), $frete, $mode;
 
     public function datasource(): array
     {
-
+        if ($this->mode == 'carga') {
+            foreach ($this->result as $valor) {
+                $this->frete = $valor['valor_total_frete_carga'];
+            }
+            $this->getTotalFreteCarga();
+        }
         return $this->result;
+    }
+
+    public function getTotalFreteCarga()
+    {
+        $this->frete;
     }
 
     public function setUp(): array
@@ -38,7 +48,10 @@ final class PedidoTable extends PowerGridComponent
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+
             Header::make()->showSearchInput(),
+            Header::make()
+                ->includeViewOnTop('components.datatable.header-top'),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),

@@ -18,7 +18,7 @@ use SplTempFileObject;
 class FormPedido extends Component
 {
 
-    public $valor_frete, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
+    public $valor_frete, $mode,$num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
 
     public $cargas, $clientes, $result = array(),$show;
 

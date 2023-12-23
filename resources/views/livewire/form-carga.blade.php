@@ -103,7 +103,7 @@
 
         @if ($show)
         <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            @livewire('pedido-table', ['result' => $result])
+            @livewire('pedido-table', ['result' => $result, 'mode'=> $mode])
         </div>
     @endif
 

@@ -12,7 +12,7 @@ use Livewire\Component;
 class FormCliente extends Component
 {
 
-    public $nome,$cliente,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
+    public $nome,$cliente,$mode,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
     
 
 
