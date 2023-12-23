@@ -42,20 +42,9 @@ final class PedidoTable extends PowerGridComponent
         if ($this->mode == 'carga') {
             foreach ($this->result as $valor) {
                 $this->frete = $valor['valor_total_frete_carga'];
+                $this->idcarga=$valor['id_carga'];
             }
             $this->getTotalFreteCarga();
-
-            $this->idcarga=$valor['id_carga'];
-
-           /*  return  Pedido::select(
-                'id',
-                'numero_pedido',
-                'cidade',
-                'numero_nota',
-                'valor_frete',
-                'valor_descarga',
-                'data_solicitacao',
-            )->where('carga_id', $this->idcarga)->get(); */
 
             return Pedido::select(
                 'pedidos.id',
@@ -79,17 +68,43 @@ final class PedidoTable extends PowerGridComponent
             foreach ($this->result as $valor) {
                 $this->id_cliente = $valor['id_cliente'];
             }
-            return  Pedido::select(
-                'id',
-                'numero_pedido',
-                'cidade',
-                'numero_nota',
-                'valor_frete',
-                'valor_descarga',
-                'data_solicitacao',
-            )->where('cliente_id', $this->id_cliente)->get();
-        }else{
-            return collect();               
+            return Pedido::select(
+                'pedidos.id',
+                'pedidos.numero_pedido',
+                'pedidos.cidade',
+                'pedidos.numero_nota',
+                'pedidos.valor_frete',
+                'pedidos.valor_descarga',
+                'pedidos.data_solicitacao',
+                'cargas.numero_carga',  // Adicione o campo desejado da tabela "carga"
+                'clientes.nome' // Adicione o campo desejado da tabela "cliente"
+            )
+            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') // Join com a tabela "carga"
+            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') // Join com a tabela "cliente"
+            ->where('pedidos.cliente_id', $this->id_cliente)
+            ->get();
+        }
+
+
+        if ($this->mode == 'pedido') {  
+
+            return Pedido::select(
+                'pedidos.id',
+                'pedidos.numero_pedido',
+                'pedidos.cidade',
+                'pedidos.numero_nota',
+                'pedidos.valor_frete',
+                'pedidos.valor_descarga',
+                'pedidos.data_solicitacao',
+                'cargas.numero_carga',  // Adicione o campo desejado da tabela "carga"
+                'clientes.nome' // Adicione o campo desejado da tabela "cliente"
+            )
+            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') // Join com a tabela "carga"
+            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') // Join com a tabela "cliente"
+            ->get();
+        }
+        else{
+            return collect();
         }
     }
 

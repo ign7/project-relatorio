@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('numero_nota');
             $table->decimal('valor_frete');
             $table->string('data_solicitacao')->nullable();
-            $table->decimal('total_valor_frete')->nullable();
+            $table->enum('status', ['pago', 'nao_pago', 'pendente'])->default('pendente');
+            $table->decimal('pedagio')->nullable();
+            $table->string('data_pagamento')->nullable();
             $table->decimal('valor_descarga')->nullable();
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes');
