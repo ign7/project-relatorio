@@ -47,7 +47,7 @@ final class PedidoTable extends PowerGridComponent
 
             $this->idcarga=$valor['id_carga'];
 
-            return  Pedido::select(
+           /*  return  Pedido::select(
                 'id',
                 'numero_pedido',
                 'cidade',
@@ -55,7 +55,23 @@ final class PedidoTable extends PowerGridComponent
                 'valor_frete',
                 'valor_descarga',
                 'data_solicitacao',
-            )->where('carga_id', $this->idcarga)->get();
+            )->where('carga_id', $this->idcarga)->get(); */
+
+            return Pedido::select(
+                'pedidos.id',
+                'pedidos.numero_pedido',
+                'pedidos.cidade',
+                'pedidos.numero_nota',
+                'pedidos.valor_frete',
+                'pedidos.valor_descarga',
+                'pedidos.data_solicitacao',
+                'cargas.numero_carga',  // Adicione o campo desejado da tabela "carga"
+                'clientes.nome' // Adicione o campo desejado da tabela "cliente"
+            )
+            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') // Join com a tabela "carga"
+            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') // Join com a tabela "cliente"
+            ->where('pedidos.carga_id', $this->idcarga)
+            ->get();
         }
 
         if ($this->mode == 'cliente') {
@@ -110,7 +126,7 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('cidade')
             ->addColumn('valor_frete')
             ->addColumn('valor_descarga')
-            ->addColumn('nome_cliente')
+            ->addColumn('nome')
             ->addColumn('numero_carga');
     }
 
@@ -130,7 +146,7 @@ final class PedidoTable extends PowerGridComponent
             Column::make('carga', 'numero_carga')
                 ->sortable(),
 
-            Column::make('Cliente', 'nome_cliente')
+            Column::make('Cliente', 'nome')
                 ->sortable(),
 
             Column::make('data solicitacao', 'data_solicitacao')
