@@ -86,7 +86,7 @@ public function query()
         $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
 
         $selectcliente = Cliente::find($cliente_id);
-
+        $totalfrete=$selectcarga->valor_total_frete+=$pedido->valor_frete;
         $nome_cliente = $selectcliente ? $selectcliente->nome : null;
         $this->id_cliente=$selectcliente->id;
 
@@ -101,6 +101,7 @@ public function query()
             'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
             'numero_carga' => $numero_carga,
             'nome_cliente' => $nome_cliente,
+            'valor_total_frete_carga' =>$totalfrete,
         ];
     } 
 

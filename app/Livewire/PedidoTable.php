@@ -14,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
 
 
 
@@ -23,14 +24,14 @@ final class PedidoTable extends PowerGridComponent
 
     use WithExport;
 
-    public $result = array(), $frete, $mode, $idcarga,$id_cliente;
+    public $result = array(), $frete, $mode, $idcarga, $id_cliente;
 
     public function datasource(): ?Collection
     {
         if ($this->mode == 'carga') {
             foreach ($this->result as $valor) {
                 $this->frete = $valor['valor_total_frete_carga'];
-                $this->idcarga=$valor['id_carga'];
+                $this->idcarga = $valor['id_carga'];
             }
             $this->getTotalFreteCarga();
 
@@ -38,60 +39,66 @@ final class PedidoTable extends PowerGridComponent
                 'pedidos.id',
                 'pedidos.numero_pedido',
                 'pedidos.cidade',
+                'pedidos.status',
                 'pedidos.numero_nota',
                 'pedidos.valor_frete',
                 'pedidos.valor_descarga',
                 'pedidos.data_solicitacao',
-                'cargas.numero_carga',  
-                'clientes.nome' 
+                'cargas.numero_carga',
+                'clientes.nome'
             )
-            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') 
-            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') 
-            ->where('pedidos.carga_id', $this->idcarga)
-            ->get();
+                ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
+                ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                ->where('pedidos.carga_id', $this->idcarga)
+                ->get();
         }
 
         if ($this->mode == 'cliente') {
-            
+
             foreach ($this->result as $valor) {
+                $this->frete = $valor['valor_total_frete_carga'];
                 $this->id_cliente = $valor['id_cliente'];
             }
-            return Pedido::select(
-                'pedidos.id',
-                'pedidos.numero_pedido',
-                'pedidos.cidade',
-                'pedidos.numero_nota',
-                'pedidos.valor_frete',
-                'pedidos.valor_descarga',
-                'pedidos.data_solicitacao',
-                'cargas.numero_carga',  
-                'clientes.nome' 
-            )
-            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') 
-            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') 
-            ->where('pedidos.cliente_id', $this->id_cliente)
-            ->get();
-        }
 
-
-        if ($this->mode == 'pedido') {  
+            $this->getTotalFreteCarga();
 
             return Pedido::select(
                 'pedidos.id',
                 'pedidos.numero_pedido',
                 'pedidos.cidade',
+                'pedidos.status',
                 'pedidos.numero_nota',
                 'pedidos.valor_frete',
                 'pedidos.valor_descarga',
                 'pedidos.data_solicitacao',
-                'cargas.numero_carga',  // Adicione o campo desejado da tabela "carga"
-                'clientes.nome' // Adicione o campo desejado da tabela "cliente"
+                'cargas.numero_carga',
+                'clientes.nome'
             )
-            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id') // Join com a tabela "carga"
-            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id') // Join com a tabela "cliente"
-            ->get();
+                ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
+                ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                ->where('pedidos.cliente_id', $this->id_cliente)
+                ->get();
         }
-        else{
+
+
+        if ($this->mode == 'pedido') {
+
+            return Pedido::select(
+                'pedidos.id',
+                'pedidos.numero_pedido',
+                'pedidos.cidade',
+                'pedidos.status',
+                'pedidos.numero_nota',
+                'pedidos.valor_frete',
+                'pedidos.valor_descarga',
+                'pedidos.data_solicitacao',
+                'cargas.numero_carga',
+                'clientes.nome'
+            )
+                ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
+                ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                ->get();
+        } else {
             return collect();
         }
     }
@@ -130,7 +137,17 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('valor_frete')
             ->addColumn('valor_descarga')
             ->addColumn('nome')
-            ->addColumn('numero_carga');
+            ->addColumn('numero_carga')
+            ->addColumn('status', function (Pedido $model) {
+                if ($model->status == 'pendente') {
+                    return '<p class="bg-orange-600  text-orange-600 px-2 py-1 rounded-2xl inline-block">PENDENTE</p>';
+                } if($model->status == 'pago') {
+                    return '<p class="bg-green-600  text-green-600 px-2 py-1 rounded-2xl inline-block">EFETIVADO</p>';
+                }
+                if($model->status == 'nao_pago') {
+                    return '<p class="bg-red-600  text-red-600 px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
+                }
+            });
     }
 
     public function columns(): array
@@ -139,6 +156,8 @@ final class PedidoTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
+
+            Column::make('status', 'status'),
 
             Column::make('pedido', 'numero_pedido')
                 ->sortable(),
@@ -170,14 +189,6 @@ final class PedidoTable extends PowerGridComponent
         ];
     }
 
-    protected $listners = ['excluir', 'excluir'];
-
-    public function excluir($id)
-    {
-        dump($id);
-    }
-
-
     public function actions(Pedido $valor)
     {
         return [
@@ -190,6 +201,30 @@ final class PedidoTable extends PowerGridComponent
                 ->slot('Excluir')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('excluir', ['id' => $valor->id]),
+        ];
+    }
+
+    public function actionRules(\App\Models\Pedido $row) :array
+    {
+        return [
+
+            Rule::rows()
+                ->when(function (\App\Models\Pedido $row) {
+                    return $row->status == 'pendente';
+                })
+                ->setAttribute('class', 'bg-orange-500'),
+
+                Rule::rows()
+                ->when(function (\App\Models\Pedido $row) {
+                    return $row->status == 'nao_pago';
+                })
+                ->setAttribute('class', 'bg-red-600'),
+
+                Rule::rows()
+                ->when(function (\App\Models\Pedido  $row) {
+                    return $row->status == 'pago';
+                })
+                ->setAttribute('class', 'bg-green-500'),
         ];
     }
 }

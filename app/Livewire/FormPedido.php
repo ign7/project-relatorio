@@ -97,7 +97,7 @@ class FormPedido extends Component
             $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
 
             $selectcliente = Cliente::find($cliente_id);
-
+            
             $nome_cliente = $selectcliente ? $selectcliente->nome : null;
 
 
@@ -111,6 +111,7 @@ class FormPedido extends Component
                 'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
+                
             ];
         }
 
