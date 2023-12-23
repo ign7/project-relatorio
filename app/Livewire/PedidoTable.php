@@ -140,12 +140,13 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('numero_carga')
             ->addColumn('status', function (Pedido $model) {
                 if ($model->status == 'pendente') {
-                    return '<p class="bg-orange-600  text-orange-600 px-2 py-1 rounded-2xl inline-block">PENDENTE</p>';
-                } if($model->status == 'pago') {
-                    return '<p class="bg-green-600  text-green-600 px-2 py-1 rounded-2xl inline-block">EFETIVADO</p>';
+                    return '<p class="px-2 py-1 rounded-2xl inline-block">PENDENTE</p>';
                 }
-                if($model->status == 'nao_pago') {
-                    return '<p class="bg-red-600  text-red-600 px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
+                if ($model->status == 'pago') {
+                    return '<p class=" px-2 py-1 rounded-2xl inline-block">EFETIVADO</p>';
+                }
+                if ($model->status == 'nao_pago') {
+                    return '<p class="px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
                 }
             });
     }
@@ -201,30 +202,35 @@ final class PedidoTable extends PowerGridComponent
                 ->slot('Excluir')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('excluir', ['id' => $valor->id]),
+
+                
+
         ];
     }
 
-    public function actionRules(\App\Models\Pedido $row) :array
+    public function actionRules(): array
     {
         return [
 
+            
+
+
             Rule::rows()
-                ->when(function (\App\Models\Pedido $row) {
+                ->when(function ($row) {
                     return $row->status == 'pendente';
                 })
-                ->setAttribute('class', 'bg-orange-500'),
+                ->setAttribute('class', 'hover:bg-red-500 hover:text-white'),
 
-                Rule::rows()
-                ->when(function (\App\Models\Pedido $row) {
+            Rule::rows()
+                ->when(function ($row) {
                     return $row->status == 'nao_pago';
                 })
-                ->setAttribute('class', 'bg-red-600'),
+                ->setAttribute('class', 'hover:bg-red-700'),
 
-                Rule::rows()
-                ->when(function (\App\Models\Pedido  $row) {
+            Rule::rows()
+                ->when(function ( $row) {
                     return $row->status == 'pago';
-                })
-                ->setAttribute('class', 'bg-green-500'),
+                })               
         ];
     }
 }
