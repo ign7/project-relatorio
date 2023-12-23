@@ -12,7 +12,7 @@ use Livewire\Component;
 class FormCliente extends Component
 {
 
-    public $nome,$cliente,$mode,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
+    public $nome,$id_cliente,$cliente,$mode,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
     
 
 
@@ -66,8 +66,10 @@ public function query()
 {
     $clienteselecionado =Cliente::find($this->selectcliente);
 
-    $pedidos=$clienteselecionado->pedidos;
+    $this->mode='cliente';
 
+    $pedidos=$clienteselecionado->pedidos;
+    
      foreach ($pedidos as $pedido) {
         $num_pedido = $pedido->numero_pedido;
         $cidade = $pedido->cidade;
@@ -86,10 +88,11 @@ public function query()
         $selectcliente = Cliente::find($cliente_id);
 
         $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-
+        $this->id_cliente=$selectcliente->id;
 
         $this->result[] = [
             'id'=>$pedido->id,
+            'id_cliente'=>$this->id_cliente,
             'numero_pedido' => $num_pedido,
             'cidade' => $cidade,
             'numero_nota' => $num_nota_fiscal,

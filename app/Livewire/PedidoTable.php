@@ -23,9 +23,9 @@ final class PedidoTable extends PowerGridComponent
 
     use WithExport;
 
-    public $result = array(), $frete, $mode;
+    public $result = array(), $frete, $mode, $idcarga,$id_cliente;
 
-    public function datasource(): array
+    /* public function datasource(): array
     {
         if ($this->mode == 'carga') {
             foreach ($this->result as $valor) {
@@ -34,6 +34,47 @@ final class PedidoTable extends PowerGridComponent
             $this->getTotalFreteCarga();
         }
         return $this->result;
+    } */
+
+
+    public function datasource(): ?Collection
+    {
+        if ($this->mode == 'carga') {
+            foreach ($this->result as $valor) {
+                $this->frete = $valor['valor_total_frete_carga'];
+            }
+            $this->getTotalFreteCarga();
+
+            $this->idcarga=$valor['id_carga'];
+
+            return  Pedido::select(
+                'id',
+                'numero_pedido',
+                'cidade',
+                'numero_nota',
+                'valor_frete',
+                'valor_descarga',
+                'data_solicitacao',
+            )->where('carga_id', $this->idcarga)->get();
+        }
+
+        if ($this->mode == 'cliente') {
+            
+            foreach ($this->result as $valor) {
+                $this->id_cliente = $valor['id_cliente'];
+            }
+            return  Pedido::select(
+                'id',
+                'numero_pedido',
+                'cidade',
+                'numero_nota',
+                'valor_frete',
+                'valor_descarga',
+                'data_solicitacao',
+            )->where('cliente_id', $this->id_cliente)->get();
+        }else{
+            return collect();               
+        }
     }
 
     public function getTotalFreteCarga()
@@ -118,20 +159,18 @@ final class PedidoTable extends PowerGridComponent
     }
 
 
-    public function actions()
+    public function actions(Pedido $valor)
     {
-        foreach ($this->result as $valor) {
-            return [
-                Button::add('fill-os')
-                    ->slot('Editar')
-                    ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->openModal('form-pedido-modal', ['id' => $valor['id']]),
+        return [
+            Button::add('fill-os')
+                ->slot('Editar')
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->openModal('form-pedido-modal', ['id' => $valor->id]),
 
-                Button::add('fill-os')
-                    ->slot('Excluir')
-                    ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('excluir', ['id' => $valor['id']]),
-            ];
-        }
+            Button::add('fill-os')
+                ->slot('Excluir')
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('excluir', ['id' => $valor->id]),
+        ];
     }
 }

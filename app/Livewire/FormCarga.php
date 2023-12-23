@@ -98,8 +98,11 @@ class FormCarga extends Component
              
             $totalfrete=$cargaselecionada->valor_total_frete+=$pedido->valor_frete;
 
+
             $this->result[] = [
+                
                 'id'=>$pedido->id,
+                'id_carga'=>$cargaselecionada->id,
                 'numero_pedido' => $num_pedido,
                 'cidade' => $cidade,
                 'numero_nota' => $num_nota_fiscal,

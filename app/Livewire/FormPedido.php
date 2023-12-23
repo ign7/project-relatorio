@@ -80,7 +80,7 @@ class FormPedido extends Component
     public function query()
     {
         $pedidos = Pedido::all();
-       
+        $this->mode='pedido';
         foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
             $cidade = $pedido->cidade;
