@@ -32,8 +32,8 @@
         <div class="">
 
             <div class="py-6">
-                <div class="">
-                    <h1 class="font-bold text-3xl pb-4 border-b-2 ">Cadastrar Cargas</h1>
+                <div class="bg-blue-500 p-4 rounded">
+                    <h1 class="font-bold text-3xl pb-4 text-white  ">Cadastrar Cargas</h1>
                 </div>
             </div>
 

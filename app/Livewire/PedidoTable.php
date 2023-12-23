@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use OpenSpout\Writer\CSV\Options;
 
 
 
@@ -113,6 +114,7 @@ final class PedidoTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
@@ -140,7 +142,7 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('numero_carga')
             ->addColumn('status', function (Pedido $model) {
                 if ($model->status == 'pendente') {
-                    return '<p class="px-2 py-1 rounded-2xl inline-block">PENDENTE</p>';
+                    return '<span class=" rounded rounded border-2 px-2 py-1 rounded-2xl inline-block">PENDENTE</span>';
                 }
                 if ($model->status == 'pago') {
                     return '<p class=" px-2 py-1 rounded-2xl inline-block">EFETIVADO</p>';
@@ -225,7 +227,7 @@ final class PedidoTable extends PowerGridComponent
                 ->when(function ($row) {
                     return $row->status == 'nao_pago';
                 })
-                ->setAttribute('class', 'hover:bg-red-700'),
+                ->setAttribute('class', 'hover:bg-red-500'),
 
             Rule::rows()
                 ->when(function ( $row) {
