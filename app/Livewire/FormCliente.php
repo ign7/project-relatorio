@@ -33,6 +33,7 @@ class FormCliente extends Component
         ]);
         $this->showAlert = true;
         session()->flash('sucesso', 'Cliente cadastrado !!');
+        return redirect()->route('pedidos');
     }
 
 

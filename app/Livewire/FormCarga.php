@@ -13,71 +13,76 @@ use Illuminate\Http\Response;
 class FormCarga extends Component
 {
 
-    public $numero_carga,$carga,$mode,$showAlert=false,$result=array(),$cargas=[],$selectcarga,$show;
+    public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
 
 
-    public function rules(){
-        $rule=[
-            'numero_carga'=>'required',
-        ];
-
+    public function rules()
+    {
+            $rule = [
+                'selectcarga' => 'required',
+            ];
+    
         return $rule;
     }
-    public function save(){
-        
-        $this->validate();
+    public function save()
+    {
+        //$this->validate();
 
-        $this->carga=Carga::create([
-          'numero_carga'=> $this->numero_carga,
-          'user_id'=>auth()->id(),
+        $this->carga = Carga::create([
+            'numero_carga' => $this->numero_carga,
+            'user_id' => auth()->id(),
         ]);
         $this->show();
         $this->showAlert = true;
         session()->flash('sucesso', 'Numero de carga cadastrado !!');
-       
+        return redirect()->route('pedidos');
     }
 
 
-    public function show(){
-        $this->show=true;
-       
+    public function show()
+    {
+        $this->show = true;
     }
 
 
-    public function showtable(){
+    public function showtable()
+    {
         $this->query();
-        $this->show=true;
-       
+        $this->show = true;
     }
 
-    public function pesquisar(){       
-            $this->showtable();        
+    public function pesquisar()
+    {
+        $this->validate();
+        $this->showtable();
     }
-    
 
-    public function limpar(){       
-        $this->show=false;   
-        $this->result=[];     
-}
+
+    public function limpar()
+    {
+        $this->show = false;
+        $this->result = [];
+    }
 
     public function closealert()
     {
         $this->showAlert = false;
     }
 
-    public function mount(){
+    public function mount()
+    {
         $this->cargas = Carga::all();
     }
 
     public function query()
     {
-        $this->mode='carga';
-        $cargaselecionada =Carga::find($this->selectcarga);
+        $this->mode = 'carga';
+        $cargaselecionada = Carga::find($this->selectcarga);
 
-        $pedidos=$cargaselecionada->pedidos;
+        $pedidos = $cargaselecionada->pedidos;
 
-         foreach ($pedidos as $pedido) {
+        foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
             $cidade = $pedido->cidade;
             $num_nota_fiscal = $pedido->numero_nota;
@@ -95,14 +100,14 @@ class FormCarga extends Component
             $selectcliente = Cliente::find($cliente_id);
 
             $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-             
-            $totalfrete=$cargaselecionada->valor_total_frete+=$pedido->valor_frete;
+
+            $totalfrete = $cargaselecionada->valor_total_frete += $pedido->valor_frete;
 
 
             $this->result[] = [
-                
-                'id'=>$pedido->id,
-                'id_carga'=>$cargaselecionada->id,
+
+                'id' => $pedido->id,
+                'id_carga' => $cargaselecionada->id,
                 'numero_pedido' => $num_pedido,
                 'cidade' => $cidade,
                 'numero_nota' => $num_nota_fiscal,
@@ -111,9 +116,9 @@ class FormCarga extends Component
                 'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
-                'valor_total_frete_carga' =>$totalfrete,
+                'valor_total_frete_carga' => $totalfrete,
             ];
-        } 
+        }
 
         return $this->result;
     }
@@ -137,25 +142,25 @@ class FormCarga extends Component
         $records = $this->query();
 
 
-       
+
         $csv = Writer::createFromFileObject(new SplTempFileObject());
 
-       
+
         $csv->insertOne($header);
 
-       
+
         $csv->insertAll($records);
 
-      
+
         $csvContent = $csv->toString();
 
-       
-        $csvFilePath = storage_path('app/relatorio.csv'); 
 
-       
+        $csvFilePath = storage_path('app/relatorio.csv');
+
+
         file_put_contents($csvFilePath, $csvContent);
 
-        
+
         return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }
 

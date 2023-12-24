@@ -27,6 +27,7 @@ class FormPedido extends Component
     {
         $this->cargas = Carga::All();
         $this->clientes = Cliente::All();
+        $this->showtable();
     }
 
     public function rules()
@@ -67,7 +68,7 @@ class FormPedido extends Component
 
         $this->showAlert = true;
         session()->flash('sucesso', 'Pedido  cadastrado !!');
-        $this->showtable();
+        return redirect()->route('pedidos');   
     }
 
 
