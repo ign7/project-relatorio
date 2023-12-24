@@ -59,6 +59,9 @@
                             <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
                         @endforeach
                     </select>
+                    @error('selectcliente')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
             </div>

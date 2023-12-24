@@ -19,14 +19,14 @@ class FormCliente extends Component
 
     public function rules(){
         $rule=[
-            'nome'=>'required',
+            'selectcliente'=>'required',
         ];
 
         return $rule;
     }
     public function save(){
         
-        $this->validate();
+       
 
         $this->cliente=Cliente::create([
           'nome'=> $this->nome,
@@ -48,8 +48,9 @@ class FormCliente extends Component
         $this->query();
     }
 
-    public function pesquisar(){       
-            $this->showtable();        
+    public function pesquisar(){  
+        $this->validate();     
+         $this->showtable();        
     }
     
 
