@@ -115,7 +115,7 @@ class FormPedidoModal extends ModalComponent
             'cidade' => $this->cidade,
             'numero_nota' => $this->num_nota_fiscal,
             'valor_frete' => $this->valor_frete,
-            'data_solicitacao' => $this->data_solicitacao,
+            'data_solicitacao' => date('d/m/Y', strtotime($this->data_solicitacao)),
             'valor_descarga' => $this->descarga
         ]);
 

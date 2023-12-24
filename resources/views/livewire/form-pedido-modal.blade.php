@@ -94,7 +94,7 @@
             </div>
         @elseif ($mode == 'nao_pago')
             <div class="p-8">
-                <span class="font-bold text-md">Deseja mover essa conta para não pagos?</span>
+                <span class="font-bold text-md">Deseja mover esse pedido para não pagos?</span>
                 <div class="flex place-content-evenly pt-8">
                     <button wire:click="move_nao_pago({{ $pedido_id }})"
                         class="rounded-md bg-blue-500 text-slate-50 font-bold px-10 py-2">Mover</button>
@@ -102,7 +102,7 @@
             </div>
         @elseif ($mode == 'pendente')
             <div class="p-8">
-                <span class="font-bold text-md">Deseja mover essa conta para pendente?</span>
+                <span class="font-bold text-md">Deseja mover esse pedido para pendente?</span>
                 <div class="flex place-content-evenly pt-8">
                     <button wire:click="move_pendente({{ $pedido_update_id }})"
                         class="rounded-md bg-orange-500 text-slate-50 font-bold px-10 py-2">Mover</button>
