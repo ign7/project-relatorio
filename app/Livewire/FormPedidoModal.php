@@ -8,8 +8,8 @@ use LivewireUI\Modal\ModalComponent;
 
 class FormPedidoModal extends ModalComponent
 {
-    public $id, $valor_frete, $mode, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
-
+    public $id, $valor_frete, $dataPagamento, $mode, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
+    public $pedido_id,$pedido_update_id;
 
     public function rules()
     {
@@ -24,19 +24,74 @@ class FormPedidoModal extends ModalComponent
         return $rule;
     }
 
+    public function move_pago()
+    {
+        if ($this->pedido_id){
+            $this->pedido = Pedido::find($this->pedido_id);          
+            if ($this->pedido) {
+                $this->pedido->update([
+                    'status' => 'pago',
+                    'data_pagamento' => $this->dataPagamento
+                ]);
+              
+                if ($this->pedido != null) {
+                    $this->closeModal();
+                    return redirect()->route('cargas');
+                }
+            }            
+        }
+    }
+
+    public function move_pendente()
+    {
+        if ($this->pedido_update_id){
+            $this->pedido = Pedido::find($this->pedido_update_id);          
+            if ($this->pedido) {
+                $this->pedido->update([
+                    'status' => 'pendente',
+                    'data_pagamento' => ''
+                ]);
+              
+                if ($this->pedido != null) {
+                    $this->closeModal();
+                    return redirect()->route('cargas');
+                }
+            }            
+        }
+    }
+
+    public function move_nao_pago()
+    {
+        if ($this->pedido_id){
+            $this->pedido = Pedido::find($this->pedido_id);          
+            if ($this->pedido) {
+                $this->pedido->update([
+                    'status' => 'nao_pago',
+                    'data_pagamento' => ''
+                ]);
+              
+                if ($this->pedido != null) {
+                    $this->closeModal();
+                    return redirect()->route('cargas');
+                }
+            }            
+        }
+    }
 
     public function mount()
     {
         $this->id;
+        $this->mode;
 
-        $this->pedido = Pedido::find($this->id);
-
-        $this->num_pedido = $this->pedido->numero_pedido;
-        $this->cidade = $this->pedido->cidade;
-        $this->num_nota_fiscal = $this->pedido->numero_nota;
-        $this->valor_frete = $this->pedido->valor_frete;
-        $this->data_solicitacao = $this->pedido->data_solicitacao;
-        $this->descarga = $this->pedido->valor_descarga;
+        if ($this->mode == 'update_pedido') {
+            $this->pedido = Pedido::find($this->id);
+            $this->num_pedido = $this->pedido->numero_pedido;
+            $this->cidade = $this->pedido->cidade;
+            $this->num_nota_fiscal = $this->pedido->numero_nota;
+            $this->valor_frete = $this->pedido->valor_frete;
+            $this->data_solicitacao = $this->pedido->data_solicitacao;
+            $this->descarga = $this->pedido->valor_descarga;
+        }
     }
     public function render()
     {

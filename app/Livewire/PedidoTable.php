@@ -114,7 +114,7 @@ final class PedidoTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            
+
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
@@ -142,13 +142,13 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('numero_carga')
             ->addColumn('status', function (Pedido $model) {
                 if ($model->status == 'pendente') {
-                    return '<span class=" rounded rounded border-2 px-2 py-1 rounded-2xl inline-block">PENDENTE</span>';
+                    return '<span class=" rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">PENDENTE</span>';
                 }
                 if ($model->status == 'pago') {
-                    return '<p class=" px-2 py-1 rounded-2xl inline-block">EFETIVADO</p>';
+                    return '<p class=" rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">PAGAMENTO EFETIVADO</p>';
                 }
                 if ($model->status == 'nao_pago') {
-                    return '<p class="px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
+                    return '<p class="rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
                 }
             });
     }
@@ -159,6 +159,8 @@ final class PedidoTable extends PowerGridComponent
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
+
+            Column::action('Action'),
 
             Column::make('status', 'status'),
 
@@ -188,7 +190,6 @@ final class PedidoTable extends PowerGridComponent
             Column::make('valor_descarga', 'valor_descarga')
                 ->sortable(),
 
-            Column::action('Action')
         ];
     }
 
@@ -198,14 +199,28 @@ final class PedidoTable extends PowerGridComponent
             Button::add('fill-os')
                 ->slot('Editar')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->openModal('form-pedido-modal', ['id' => $valor->id]),
+                ->openModal('form-pedido-modal', ['id' => $valor->id, 'mode' => 'update_pedido']),
 
             Button::add('fill-os')
                 ->slot('Excluir')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('excluir', ['id' => $valor->id]),
 
-                
+            Button::add('fill-os')
+                ->slot('Pagar')
+                ->class('bg-green-500 text-white font-bold px-3 rounded')
+                ->openModal('form-pedido-modal', ['pedido_id' => $valor->id, 'mode' => 'pagar']),
+
+            Button::add('fill-os')
+                ->slot('pendente')
+                ->class('bg-orange-500 text-white font-bold px-3 rounded')
+                ->openModal('form-pedido-modal', ['pedido_update_id' => $valor->id, 'mode' => 'pendente']),
+
+            Button::add('fill-os')
+                ->slot('nao_pago')
+                ->class('bg-red-500 text-white font-bold px-3 rounded')
+                ->openModal('form-pedido-modal', ['pedido_id' => $valor->id, 'mode' => 'nao_pago']),
+
 
         ];
     }
@@ -214,14 +229,23 @@ final class PedidoTable extends PowerGridComponent
     {
         return [
 
-            
+            Rule::button('pendente')
+                ->when(fn ($row) => $row->status == 'pago')
+                ->hide(),
 
+            Rule::button('pago')
+                ->when(fn ($row) => $row->status == 'pendente')
+                ->hide(),
+
+            Rule::button('nao_pago')
+                ->when(fn ($row) => $row->status == 'pago')
+                ->hide(),
 
             Rule::rows()
                 ->when(function ($row) {
                     return $row->status == 'pendente';
                 })
-                ->setAttribute('class', 'hover:bg-red-500 hover:text-white'),
+                ->setAttribute('class', 'hover:bg-orange-500 hover:text-white'),
 
             Rule::rows()
                 ->when(function ($row) {
@@ -230,9 +254,10 @@ final class PedidoTable extends PowerGridComponent
                 ->setAttribute('class', 'hover:bg-red-500'),
 
             Rule::rows()
-                ->when(function ( $row) {
+                ->when(function ($row) {
                     return $row->status == 'pago';
-                })               
+                })
+                ->setAttribute('class', 'hover:bg-blue-500 hover:text-white'),
         ];
     }
 }
