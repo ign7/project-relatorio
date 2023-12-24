@@ -11,6 +11,8 @@ class FormPedidoModal extends ModalComponent
     public $id, $valor_frete, $dataPagamento, $mode, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
     public $pedido_id,$pedido_update_id;
 
+    
+
     public function rules()
     {
         $rule = [
@@ -22,6 +24,13 @@ class FormPedidoModal extends ModalComponent
         ];
 
         return $rule;
+    }
+
+    public function delete(){
+        
+       $this->pedido= Pedido::find($this->id);
+       $this->pedido->delete();
+       return redirect()->route('cargas');
     }
 
     public function move_pago()

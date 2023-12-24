@@ -108,8 +108,19 @@
                         class="rounded-md bg-orange-500 text-slate-50 font-bold px-10 py-2">Mover</button>
                 </div>
             </div>
-       
+
+            @elseif ($mode == 'excluir')
+            <div class="p-8">
+                <span class="font-bold text-md">Deseja excluir este pedido?</span>
+                <div class="flex place-content-evenly pt-8">
+                    <button wire:click="delete"
+                        class="rounded-md bg-orange-500 text-slate-50 font-bold px-10 py-2">Mover</button>
+                </div>
+            </div>
         @endif
+
+        
+        
     </div>
 
 </div>

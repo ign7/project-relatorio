@@ -204,7 +204,7 @@ final class PedidoTable extends PowerGridComponent
             Button::add('fill-os')
                 ->slot('Excluir')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('excluir', ['id' => $valor->id]),
+                ->openModal('form-pedido-modal', ['id' => $valor->id, 'mode' => 'excluir']),
 
             Button::add('fill-os')
                 ->slot('Pagar')
