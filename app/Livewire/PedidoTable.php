@@ -27,6 +27,8 @@ final class PedidoTable extends PowerGridComponent
 
     public $result = array(), $frete, $mode, $idcarga, $id_cliente;
 
+   
+
     public function datasource(): ?Collection
     {
         if ($this->mode == 'carga') {

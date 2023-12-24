@@ -121,6 +121,7 @@ class FormPedidoModal extends ModalComponent
 
         if ($this->pedido != null) {
             $this->closeModal();
+            return redirect()->route('cargas');
         }
     }
 
