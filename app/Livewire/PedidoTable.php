@@ -59,7 +59,7 @@ final class PedidoTable extends PowerGridComponent
         if ($this->mode == 'cliente') {
 
             foreach ($this->result as $valor) {
-                $this->frete = $valor['valor_total_frete_carga'];
+                $this->frete += $valor['valor_frete'];
                 $this->id_cliente = $valor['id_cliente'];
             }
 
@@ -86,6 +86,12 @@ final class PedidoTable extends PowerGridComponent
 
         if ($this->mode == 'pedido') {
 
+
+            foreach ($this->result as $valor) {
+                $this->frete += $valor['valor_frete'];
+            }
+            $this->getTotalFretepedido();
+
             return Pedido::select(
                 'pedidos.id',
                 'pedidos.numero_pedido',
@@ -95,6 +101,7 @@ final class PedidoTable extends PowerGridComponent
                 'pedidos.valor_frete',
                 'pedidos.valor_descarga',
                 'pedidos.data_solicitacao',
+                'pedidos.data_pagamento',
                 'cargas.numero_carga',
                 'clientes.nome'
             )
@@ -107,6 +114,11 @@ final class PedidoTable extends PowerGridComponent
     }
 
     public function getTotalFreteCarga()
+    {
+        $this->frete;
+    }
+
+    public function getTotalFretepedido()
     {
         $this->frete;
     }
@@ -139,6 +151,7 @@ final class PedidoTable extends PowerGridComponent
             ->addColumn('data_solicitacao')
             ->addColumn('cidade')
             ->addColumn('valor_frete')
+            ->addColumn('data_pagamento')
             ->addColumn('valor_descarga')
             ->addColumn('nome')
             ->addColumn('numero_carga')
@@ -179,6 +192,10 @@ final class PedidoTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('data solicitacao', 'data_solicitacao')
+                ->searchable()
+                ->sortable(),
+
+                Column::make('data pagamento', 'data_pagamento')
                 ->searchable()
                 ->sortable(),
 

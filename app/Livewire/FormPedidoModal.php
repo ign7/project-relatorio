@@ -40,7 +40,7 @@ class FormPedidoModal extends ModalComponent
             if ($this->pedido) {
                 $this->pedido->update([
                     'status' => 'pago',
-                    'data_pagamento' => $this->dataPagamento
+                    'data_pagamento' => date('d/m/Y', strtotime($this->dataPagamento))
                 ]);
               
                 if ($this->pedido != null) {
