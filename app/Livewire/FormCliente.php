@@ -26,14 +26,19 @@ class FormCliente extends Component
     }
     public function save(){
         
-       
+        $clienteExistente = Cliente::where('nome', $this->nome)->first();
 
-        $this->cliente=Cliente::create([
-          'nome'=> $this->nome,
-        ]);
-        $this->showAlert = true;
-        session()->flash('sucesso', 'Cliente cadastrado !!');
-        return redirect()->route('pedidos');
+        if(!$clienteExistente){
+            $this->cliente=Cliente::create([
+                'nome'=> $this->nome,
+              ]);
+              $this->showAlert = true;
+              session()->flash('sucesso', 'Cliente cadastrado !!');
+              return redirect()->route('pedidos');
+        }else{
+            $this->showAlert = true;
+              session()->flash('erro', 'Cliente ja existente!!');
+        }
     }
 
 

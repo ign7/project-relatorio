@@ -54,21 +54,27 @@ class FormPedido extends Component
     {
 
         $this->validate();
+        $pedidoExistente = Pedido::where('numero_pedido', $this->num_pedido)->first();
 
-        $this->pedido = Pedido::create([
-            'numero_pedido' => $this->num_pedido,
-            'cidade' => $this->cidade,
-            'numero_nota' => $this->num_nota_fiscal,
-            'valor_frete' => $this->valor_frete,
-            'data_solicitacao' => $this->data_solicitacao = date('d/m/Y', strtotime($this->data_solicitacao)),
-            'valor_descarga' => $this->descarga,
-            'cliente_id' => $this->cliente_id,
-            'carga_id' => $this->carga_id,
-        ]);
-
-        $this->showAlert = true;
-        session()->flash('sucesso', 'Pedido  cadastrado !!');
-        return redirect()->route('pedidos');   
+        if(!$pedidoExistente){
+            $this->pedido = Pedido::create([
+                'numero_pedido' => $this->num_pedido,
+                'cidade' => $this->cidade,
+                'numero_nota' => $this->num_nota_fiscal,
+                'valor_frete' => $this->valor_frete,
+                'data_solicitacao' => $this->data_solicitacao = date('d/m/Y', strtotime($this->data_solicitacao)),
+                'valor_descarga' => $this->descarga,
+                'cliente_id' => $this->cliente_id,
+                'carga_id' => $this->carga_id,
+            ]);
+    
+            $this->showAlert = true;
+            session()->flash('sucesso', 'Pedido  cadastrado !!');
+            return redirect()->route('pedidos');   
+        }else{
+            $this->showAlert = true;
+            session()->flash('erro', 'numero de Pedido  ja existente !!');
+        }
     }
 
 

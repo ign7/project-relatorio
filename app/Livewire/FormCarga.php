@@ -19,24 +19,34 @@ class FormCarga extends Component
 
     public function rules()
     {
-            $rule = [
-                'selectcarga' => 'required',
-            ];
-    
+        $rule = [
+            'selectcarga' => 'required',
+        ];
+
         return $rule;
     }
     public function save()
     {
-        //$this->validate();
+        
+        // Verifica se já existe uma carga com o mesmo número
+        $cargaExistente = Carga::where('numero_carga', $this->numero_carga)->first();
 
-        $this->carga = Carga::create([
-            'numero_carga' => $this->numero_carga,
-            'user_id' => auth()->id(),
-        ]);
-        $this->show();
-        $this->showAlert = true;
-        session()->flash('sucesso', 'Numero de carga cadastrado !!');
-        return redirect()->route('pedidos');
+        if (!$cargaExistente) {
+            $this->carga = Carga::create([
+                'numero_carga' => $this->numero_carga,
+                'user_id' => auth()->id(),
+            ]);
+    
+            $this->show();
+            $this->showAlert = true;
+            session()->flash('sucesso', 'Número de carga cadastrado!');
+            return redirect()->route('pedidos');
+            
+        }else{
+            $this->showAlert = true;
+            session()->flash('erro', 'Já existe uma carga com este número.');
+        }
+      
     }
 
 
