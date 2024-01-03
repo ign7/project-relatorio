@@ -36,6 +36,7 @@ class FormPedidoModal extends ModalComponent
         ]);
         if($this->cidadeModel){
             $this->closeModal();
+            return redirect()->route('pedidos');
         }
     }
 
