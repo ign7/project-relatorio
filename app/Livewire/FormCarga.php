@@ -80,35 +80,14 @@ class FormCarga extends Component
     }
 
     
-   public $vt=[1,2,3,4];
-   public $vt2=[1,2,3];
+  
 
     public function mount()
     {
         $this->cargas = Carga::all();
-        //$this->logica(20,50);
-        $this->logica1(20,50);
-        $this->logica2($this->vt,$this->vt2);
     }
 
-    public function logica( int $v1,int $v2)
-    {
-        dump($v1 + $v2 > 20 ? 'resultado se maior que 20 => '. $v1+$v2+8 : 'resultado se menor que 20 => '.$v1+$v2-5); 
-    }
-
-    public function logica1( int $v1)
-    {
-    
-        dump($v1%2==0 && $v1%5==0 && $v1%10==0 ?  $v1.' E divisivivel por 10 5 e 2 ao memso tempo' : 'Nao e divisivel por nenhum destes');
-    }
-
-    public function logica2($v1,$v2)
-    {
-    $return=array();
-    $return=array_diff($v1,$v2);
-     dump($return);
-    }
-
+   
     public function query()
     {
         $this->mode = 'carga';

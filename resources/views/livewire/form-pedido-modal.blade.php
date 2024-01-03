@@ -129,15 +129,19 @@
 
             <div class="flex">
 
-                <div class="w-1/2 flex flex-col gap-2 pb-4 pr-2">
-                    <x-label for="selectuser" class="">Cidade:</x-label>
-                    <x-input value="" class="rounded-md" type="number" wire:model.live="selectcidade" />
+                <div class="w-1/2 flex flex-col gap-2 pb-4 pr-2 pr-4">
+                    <x-label for="" class="">Cidade:</x-label>
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="selectcidade" />
+                    @error('selectcidade')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
+                
 
                 <div class="w-1/2 flex flex-col gap-2 pb-4 pr-2 pr-4">
                     <x-label for="" class="">Estado:</x-label>
                     <x-input value="" class="rounded-md" type="text" wire:model.live="selectestado" />
-                    @error('')
+                    @error('selectestado')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Cidade;
 use App\Models\Pedido;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
@@ -9,7 +10,8 @@ use LivewireUI\Modal\ModalComponent;
 class FormPedidoModal extends ModalComponent
 {
     public $id, $valor_frete, $dataPagamento, $mode, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id;
-    public $pedido_id,$pedido_update_id;
+    public $pedido_id,$pedido_update_id,$cidadeModel,$estado,$selectcidade,
+    $selectestado;
 
     
 
@@ -24,6 +26,17 @@ class FormPedidoModal extends ModalComponent
         ];
 
         return $rule;
+    }
+
+
+    public function cadastrarcidade(){
+        $this->cidadeModel=Cidade::create([
+            'cidade'=>$this->selectcidade,
+            'estado' => $this->selectestado,
+        ]);
+        if($this->cidadeModel){
+            $this->closeModal();
+        }
     }
 
     public function delete(){

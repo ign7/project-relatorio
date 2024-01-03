@@ -64,8 +64,18 @@
                 <div class="flex flex-col gap-2 w-1/3 pr-4">
                     <div class="flex flex-row items-center">
                         <div class="mr-2">
-                            <x-label for="selectcliente" class="">Cidade:</x-label>
-                            <x-input value="" class="rounded-md" type="text" wire:model.live="cidade" />
+                            
+                                <x-label for="selectuser" class="">Cidade:</x-label>
+                                <select wire:model.live="cidade_id" id="selectuser" class="rounded-md">
+                                    <option value="" selected>-- Cidades --</option>
+                                    @foreach ($cidades as $cidade)
+                                        <option value="{{ $cidade->id }}">{{ $cidade->cidade }}</option>
+                                    @endforeach
+                                    @error('cidade_id')
+                                        <span class="text-red-500">{{ $message }}</span>
+                                    @enderror
+                                </select>
+                            
                         </div>
                     
                         <div class="pt-4">

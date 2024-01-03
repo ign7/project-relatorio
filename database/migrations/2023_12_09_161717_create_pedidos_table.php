@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->integer('numero_pedido');
-            $table->string('cidade');
+            $table->string('cidade')->nullable();
             $table->string('numero_nota');
             $table->decimal('valor_frete');
             $table->string('data_solicitacao')->nullable();
