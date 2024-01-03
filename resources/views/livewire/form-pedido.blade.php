@@ -60,11 +60,22 @@
             </div>
 
             <div class="flex py-2">
+
                 <div class="flex flex-col gap-2 w-1/3 pr-4">
-                    <x-label for="selectcliente" class="">Cidade:</x-label>
-
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="cidade" />
-
+                    <div class="flex flex-row items-center">
+                        <div class="mr-2">
+                            <x-label for="selectcliente" class="">Cidade:</x-label>
+                            <x-input value="" class="rounded-md" type="text" wire:model.live="cidade" />
+                        </div>
+                    
+                        <div class="pt-4">
+                            <button wire:click="$dispatch('openModal', { component: 'form-pedido-modal' , arguments:{ mode: 'modal-cidade' }})" class="rounded-md bg-blue-500 text-slate-50 font-bold px-5 py-1">
+                                <span class="material-symbols-outlined">
+                                    add
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                     @error('cidade')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -125,7 +136,7 @@
 
     @if ($show)
         <div class="border-t-2 pt-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            @livewire('pedido-table', ['result' => $result, 'mode'=> $mode])
+            @livewire('pedido-table', ['result' => $result, 'mode' => $mode])
         </div>
     @endif
 

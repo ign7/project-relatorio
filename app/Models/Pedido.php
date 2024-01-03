@@ -22,6 +22,7 @@ class Pedido extends Model
         'data_solicitacao',
         'cliente_id',
         'carga_id',
+        'cidade_id'
     ];
 
     public function carga()
@@ -29,6 +30,10 @@ class Pedido extends Model
         return $this->belongsTo(Carga::class);
     }
     
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class);
+    }
 
     public function cliente()
     {
