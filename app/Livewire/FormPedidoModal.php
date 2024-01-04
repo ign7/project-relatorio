@@ -44,7 +44,7 @@ class FormPedidoModal extends ModalComponent
         
        $this->pedido= Pedido::find($this->id);
        $this->pedido->delete();
-       return redirect()->route('cargas');
+       return redirect()->route('pedidos');
     }
 
     public function move_pago()
