@@ -27,11 +27,12 @@ final class PedidoTable extends PowerGridComponent
 
     public $result = array(), $frete, $mode, $idcarga, $id_cliente;
 
+    protected $listeners=['opentable','datasource'];
    
 
     public function datasource(): ?Collection
     {
-       /*  if ($this->mode == 'carga') {
+         if ($this->mode == 'carga') {
             foreach ($this->result as $valor) {
                 $this->frete = $valor['valor_total_frete_carga'];
                 $this->idcarga = $valor['id_carga'];
@@ -41,17 +42,19 @@ final class PedidoTable extends PowerGridComponent
             return Pedido::select(
                 'pedidos.id',
                 'pedidos.numero_pedido',
-                'pedidos.cidade',
                 'pedidos.status',
                 'pedidos.numero_nota',
                 'pedidos.valor_frete',
                 'pedidos.valor_descarga',
                 'pedidos.data_solicitacao',
+                'pedidos.data_pagamento',
                 'cargas.numero_carga',
+                'cidades.cidade',
                 'clientes.nome'
             )
                 ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
                 ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
                 ->where('pedidos.carga_id', $this->idcarga)
                 ->get();
         }
@@ -68,21 +71,23 @@ final class PedidoTable extends PowerGridComponent
             return Pedido::select(
                 'pedidos.id',
                 'pedidos.numero_pedido',
-                'pedidos.cidade',
                 'pedidos.status',
                 'pedidos.numero_nota',
                 'pedidos.valor_frete',
                 'pedidos.valor_descarga',
                 'pedidos.data_solicitacao',
+                'pedidos.data_pagamento',
                 'cargas.numero_carga',
+                'cidades.cidade',
                 'clientes.nome'
             )
                 ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
                 ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
                 ->where('pedidos.cliente_id', $this->id_cliente)
                 ->get();
         }
- */
+ 
 
         if ($this->mode == 'pedido') {
 

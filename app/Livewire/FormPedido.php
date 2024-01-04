@@ -29,7 +29,7 @@ class FormPedido extends Component
         $this->cargas = Carga::All();
         $this->cidades = Cidade::All();
         $this->clientes = Cliente::All();
-        
+
         $this->showtable();
     }
 

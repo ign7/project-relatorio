@@ -41,7 +41,6 @@ class FormCarga extends Component
             $this->show();
             $this->showAlert = true;
             session()->flash('sucesso', 'Número de carga cadastrado!');
-            return redirect()->route('pedidos');
         } else {
             $this->showAlert = true;
             session()->flash('erro', 'Já existe uma carga com este número.');
