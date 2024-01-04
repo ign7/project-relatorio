@@ -34,7 +34,7 @@ class FormCliente extends Component
               ]);
               $this->showAlert = true;
               session()->flash('sucesso', 'Cliente cadastrado !!');
-              return redirect()->route('pedidos');
+              return redirect()->route('clientes');
         }else{
             $this->showAlert = true;
               session()->flash('erro', 'Cliente ja existente!!');
