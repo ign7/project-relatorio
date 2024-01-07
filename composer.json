@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.8",
         "league/csv": "^9.12",
         "livewire/livewire": "^3.3",
+        "openspout/openspout": "^4.22",
         "power-components/livewire-powergrid": "^5.1",
         "wire-elements/modal": "^2.0"
     },
