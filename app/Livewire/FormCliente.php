@@ -41,6 +41,18 @@ class FormCliente extends Component
         }
     }
 
+    public function delete()
+    {
+        $clienteachada = Cliente::find($this->selectcliente);
+        $pedidoscliente=$clienteachada->pedidos()->get();
+        foreach($pedidoscliente as $pedidos){
+            $pedidos->delete();
+        }
+        $clienteachada->delete();
+        return redirect()->route('clientes');
+    }
+
+
 
     public function closealert()
     {

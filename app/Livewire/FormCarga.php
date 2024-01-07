@@ -48,6 +48,18 @@ class FormCarga extends Component
     }
 
 
+    public function delete()
+    {
+        $cargaachada = Carga::find($this->selectcarga);
+        $pedidoscarga = $cargaachada->pedidos()->get();
+
+        foreach ($pedidoscarga as $pedido)
+            $pedido->delete();
+
+        $cargaachada->delete();
+        return redirect()->route('cargas');
+    }
+
     public function show()
     {
         $this->show = true;
@@ -78,15 +90,15 @@ class FormCarga extends Component
         $this->showAlert = false;
     }
 
-    
-  
+
+
 
     public function mount()
     {
         $this->cargas = Carga::all();
     }
 
-   
+
     public function query()
     {
         $this->mode = 'carga';

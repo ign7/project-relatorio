@@ -84,6 +84,13 @@
                     </div>
 
                     <div class="flex flex-col pl-4 pb-2">
+                        <button wire:click.prevent="delete"
+                            class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                            Excluir
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col pl-4 pb-2">
                         <button disabled wire:click.prevent="exportar"
                             class="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                             Exportar
