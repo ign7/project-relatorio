@@ -84,8 +84,8 @@
                     </div>
 
                     <div class="flex flex-col pl-4 pb-2">
-                        <button wire:click.prevent="exportar"
-                            class="bg-transparent hover:bg-orange-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
+                        <button disabled wire:click.prevent="exportar"
+                            class="bg-transparent  hover:bg-gray-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                             Exportar
                         </button>
                     </div>
