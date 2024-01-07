@@ -30,6 +30,36 @@
         @endif
 
         <div>
+            <div class="flex flex-col gap-2 w-1/3 ">
+                <div class="flex flex-row items-center">
+                    <div class="flex flex-col gap-2 w-full ">
+                        <x-label for="selectuser" class="">Cidade:</x-label>
+                        <select wire:model.live="cidade_id" id="selectuser" class="rounded-md">
+                            <option value="" selected>-- Cidades --</option>
+                            @foreach ($cidades as $cidade)
+                                <option value="{{ $cidade->id }}">{{ $cidade->cidade }}</option>
+                            @endforeach
+                            @error('cidade_id')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </select>
+                    </div>
+
+                    <div class=" pl-2 pt-6">
+                        <button
+                            wire:click="$dispatch('openModal', { component: 'form-pedido-modal' , arguments:{ mode: 'modal-cidade' }})"
+                            class="rounded-md bg-blue-500 text-slate-50 font-bold px-5 py-1">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                @error('cidade')
+                    <span class="text-red-500">{{ $message }}</span>
+                @enderror
+            </div>
+
             <div class="flex py-2">
                 <div class="w-1/2 flex flex-col gap-2 pr-6">
                     <x-label for="selectuser" class="">Numero Do Pedido:</x-label>
@@ -60,34 +90,6 @@
             </div>
 
             <div class="flex py-2">
-
-                <div class="flex flex-col gap-2 w-1/3 pr-4">
-                    <div class="flex flex-row items-center">
-                        <div class="flex flex-col gap-2 w-full px-2">
-                                <x-label for="selectuser" class="">Cidade:</x-label>
-                                <select wire:model.live="cidade_id" id="selectuser" class="rounded-md">
-                                    <option value="" selected>-- Cidades --</option>
-                                    @foreach ($cidades as $cidade)
-                                        <option value="{{ $cidade->id }}">{{ $cidade->cidade }}</option>
-                                    @endforeach
-                                    @error('cidade_id')
-                                        <span class="text-red-500">{{ $message }}</span>
-                                    @enderror
-                                </select> 
-                        </div>
-                    
-                        <div class="pt-6">
-                            <button wire:click="$dispatch('openModal', { component: 'form-pedido-modal' , arguments:{ mode: 'modal-cidade' }})" class="rounded-md bg-blue-500 text-slate-50 font-bold px-5 py-1">
-                                <span class="material-symbols-outlined">
-                                    add
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                    @error('cidade')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
 
                 <div class="flex flex-col gap-2 w-1/3 px-2">
                     <x-label for="selectcontrato" class="">N°/Nota Fiscal:</x-label>
