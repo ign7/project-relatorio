@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Pedido;
 use Illuminate\Support\Carbon;
+use OpenSpout\Writer\CSV\Options;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -11,11 +12,11 @@ use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
-use OpenSpout\Writer\CSV\Options;
 
 
 
@@ -34,6 +35,7 @@ final class PedidoTable extends PowerGridComponent
     public function datasource(): ?Collection
     {
         if ($this->mode == 'carga') {
+            $this->frete=0;
             foreach ($this->result as $valor) {
                 $this->frete = $valor['valor_total_frete_carga'];
                 $this->idcarga = $valor['id_carga'];
@@ -61,7 +63,7 @@ final class PedidoTable extends PowerGridComponent
         }
 
         if ($this->mode == 'cliente') {
-
+            $this->frete=0;
             foreach ($this->result as $valor) {
                 $this->frete += $valor['valor_frete'];
                 $this->id_cliente = $valor['id_cliente'];
@@ -92,7 +94,7 @@ final class PedidoTable extends PowerGridComponent
 
         if ($this->mode == 'pedido') {
 
-
+            $this->frete=0;
             foreach ($this->result as $valor) {
                 $this->frete += $valor['valor_frete'];
             }
@@ -189,18 +191,23 @@ final class PedidoTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('PEDIDO', 'numero_pedido')
+                ->searchable()
                 ->sortable(),
 
             Column::make('NUMERO NOTA', 'numero_nota')
+                ->searchable()
                 ->sortable(),
 
             Column::make('CARGA', 'numero_carga')
+                ->searchable()
                 ->sortable(),
 
             Column::make('CLIENTE', 'nome')
+                ->searchable()
                 ->sortable(),
 
             Column::make('DATA SOLICITACAO', 'data_solicitacao')
+                ->searchable()
                 ->searchable()
                 ->sortable(),
 
@@ -213,12 +220,15 @@ final class PedidoTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('VALOR FRETE', 'valor_frete')
+                ->searchable()
                 ->sortable(),
 
             Column::make('DESCARGA', 'valor_descarga')
+                ->searchable()
                 ->sortable(),
 
             Column::make('STATUS', 'status')
+                ->searchable()
                 ->sortable(),
         ];
     }
@@ -252,6 +262,21 @@ final class PedidoTable extends PowerGridComponent
                 ->openModal('form-pedido-modal', ['pedido_id' => $valor->id, 'mode' => 'nao_pago']),
 
 
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::datepicker('data_solicitacao'),
+            Filter::datepicker('data_pagamento'),
+           
+                Filter::select('status', 'status')
+                    ->dataSource(Pedido::select('status')->distinct()->get())
+                    ->optionValue('status')
+                    ->optionLabel('status'),
+           
+            
         ];
     }
 
