@@ -28,12 +28,12 @@ final class PedidoTable extends PowerGridComponent
 
     public $result = array(), $frete, $mode, $idcarga, $id_cliente;
 
-    protected $listeners=['opentable','datasource'];
-   
+    protected $listeners = ['opentable', 'datasource'];
+
 
     public function datasource(): ?Collection
     {
-         if ($this->mode == 'carga') {
+        if ($this->mode == 'carga') {
             foreach ($this->result as $valor) {
                 $this->frete = $valor['valor_total_frete_carga'];
                 $this->idcarga = $valor['id_carga'];
@@ -88,7 +88,7 @@ final class PedidoTable extends PowerGridComponent
                 ->where('pedidos.cliente_id', $this->id_cliente)
                 ->get();
         }
- 
+
 
         if ($this->mode == 'pedido') {
 
@@ -142,9 +142,9 @@ final class PedidoTable extends PowerGridComponent
 
             Header::make()->showSearchInput()
                 ->includeViewOnTop('components.datatable.header-top')
-                ->showToggleColumns(), 
-           
-                
+                ->showToggleColumns(),
+
+
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -180,44 +180,46 @@ final class PedidoTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+
+            Column::action('Action')
+                ->sortable(),
+
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
 
-            Column::action('Action'),
-
-            Column::make('status', 'status'),
-
-            Column::make('pedido', 'numero_pedido')
+            Column::make('PEDIDO', 'numero_pedido')
                 ->sortable(),
 
-            Column::make('numero_nota', 'numero_nota')
+            Column::make('NUMERO NOTA', 'numero_nota')
                 ->sortable(),
 
-            Column::make('carga', 'numero_carga')
+            Column::make('CARGA', 'numero_carga')
                 ->sortable(),
 
-            Column::make('Cliente', 'nome')
+            Column::make('CLIENTE', 'nome')
                 ->sortable(),
 
-            Column::make('data solicitacao', 'data_solicitacao')
+            Column::make('DATA SOLICITACAO', 'data_solicitacao')
                 ->searchable()
                 ->sortable(),
 
-                Column::make('data pagamento', 'data_pagamento')
+            Column::make('DATA PAGAMENTO', 'data_pagamento')
                 ->searchable()
                 ->sortable(),
 
 
-            Column::make('cidade', 'cidade')
+            Column::make('CIDADE', 'cidade')
                 ->sortable(),
 
-            Column::make('valor_frete', 'valor_frete')
+            Column::make('VALOR FRETE', 'valor_frete')
                 ->sortable(),
 
-            Column::make('valor_descarga', 'valor_descarga')
+            Column::make('DESCARGA', 'valor_descarga')
                 ->sortable(),
 
+            Column::make('STATUS', 'status')
+                ->sortable(),
         ];
     }
 

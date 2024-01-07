@@ -128,7 +128,6 @@ class FormPedido extends Component
                 'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
                 'numero_carga' => $numero_carga,
                 'nome_cliente' => $nome_cliente,
-
             ];
         }
 
@@ -138,12 +137,12 @@ class FormPedido extends Component
     public function exportar()
     {
         $header  = [
-            'pedido',
+            'numero_pedido',
             'cidade',
-            'notafiscais',
+            'numero_nota',
             'valor_frete',
             'valor_descarga',
-            'data',
+            'data_solicitacao',
             'numero_carga',
             'nome_cliente',
         ];
