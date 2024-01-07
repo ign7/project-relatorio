@@ -19,7 +19,6 @@ class FormPedidoModal extends ModalComponent
     {
         $rule = [
             'num_pedido' => 'required',
-            'cidade' => 'required',
             'num_nota_fiscal' => 'required',
             'valor_frete' => 'required',
             'data_solicitacao' => 'required',
@@ -59,7 +58,7 @@ class FormPedidoModal extends ModalComponent
               
                 if ($this->pedido != null) {
                     $this->closeModal();
-                    return redirect()->route('cargas');
+                    return redirect()->route('pedidos');
                 }
             }            
         }
@@ -77,7 +76,7 @@ class FormPedidoModal extends ModalComponent
               
                 if ($this->pedido != null) {
                     $this->closeModal();
-                    return redirect()->route('cargas');
+                    return redirect()->route('pedidos');
                 }
             }            
         }
@@ -95,7 +94,7 @@ class FormPedidoModal extends ModalComponent
               
                 if ($this->pedido != null) {
                     $this->closeModal();
-                    return redirect()->route('cargas');
+                    return redirect()->route('pedidos');
                 }
             }            
         }
@@ -135,7 +134,7 @@ class FormPedidoModal extends ModalComponent
 
         if ($this->pedido != null) {
             $this->closeModal();
-            return redirect()->route('cargas');
+            return redirect()->route('pedidos');
         }
     }
 

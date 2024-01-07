@@ -20,6 +20,7 @@ use OpenSpout\Writer\CSV\Options;
 
 
 
+
 final class PedidoTable extends PowerGridComponent
 {
 
@@ -136,12 +137,14 @@ final class PedidoTable extends PowerGridComponent
         return [
 
             Exportable::make('export')
-                ->striped()
+                ->striped('#A6ACCD')
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
 
-            Header::make()->showSearchInput(),
-            Header::make()
-                ->includeViewOnTop('components.datatable.header-top'),
+            Header::make()->showSearchInput()
+                ->includeViewOnTop('components.datatable.header-top')
+                ->showToggleColumns(), 
+           
+                
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),

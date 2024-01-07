@@ -15,7 +15,7 @@
 
                 <div class="w-1/2 flex flex-col gap-2 pb-4 pr-2 pr-4">
                     <x-label for="selectcliente" class="">Cidade:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="cidade" />
+                    <x-input value="" class="rounded-md bg-gray-200" readonly type="text" wire:model.live="cidade" />
                     @error('cidade')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
