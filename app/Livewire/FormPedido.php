@@ -105,7 +105,10 @@ class FormPedido extends Component
             $cidade_id = $pedido->cidade_id;
 
             $cidadeOBJ = Cidade::find($cidade_id);
-            $cidade = $cidadeOBJ->cidade;
+            
+                $cidade = $cidadeOBJ->cidade;
+        
+           
             $selectcarga = Carga::find($carga_id);
 
             $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
