@@ -20,6 +20,11 @@ class CargaService implements CargaInterface{
       return $cargaRepository->save($attributes);
     }
 
+    public function findByColumn(string $column, $value)
+    {
+        return $this->cargaRepository->findByColumn($column, $value);
+    }
+
     public function all()
     {
         return $this->cargaRepository->all();

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Interface\CargaInterface;
 use App\Models\Carga;
 use League\Csv\Reader;
 use League\Csv\Writer;
@@ -18,31 +19,27 @@ class FormCarga extends Component
 
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
-    protected  $cargaService;
+    protected  $service;
 
     public function mount(CargaService $cargaService)
     {
-        $this->cargaService = $cargaService;
-        $this->cargas = $this->cargaService->all();      
+        $this->service = $cargaService;
+        $this->cargas = $this->service->all();      
     }
 
-
-
-    public function rules()
+    public function hydrate()
     {
-        $rule = [
-            'selectcarga' => 'required',
-        ];
-
-        return $rule;
+        $this->service = app(CargaService::class);
     }
+
+
     public function save()
     {
-
+       
         // Verifica se já existe uma carga com o mesmo número
         $cargaExistente = Carga::where('numero_carga', $this->numero_carga)->first();
 
-        if (!$cargaExistente) {
+        if (!$this->service->findByColumn('numero_carga', $this->numero_carga)) {
             $this->carga = Carga::create([
                 'numero_carga' => $this->numero_carga,
                 'user_id' => auth()->id(),
@@ -55,6 +52,15 @@ class FormCarga extends Component
             $this->showAlert = true;
             session()->flash('erro', 'Já existe uma carga com este número.');
         }
+    }
+
+    public function rules()
+    {
+        $rule = [
+            'selectcarga' => 'required',
+        ];
+
+        return $rule;
     }
 
 
