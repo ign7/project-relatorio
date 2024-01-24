@@ -7,14 +7,24 @@ use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
 use App\Models\Cliente;
+use App\Services\CargaService;
 use Livewire\Component;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Type\Integer;
+
 
 class FormCarga extends Component
 {
 
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
+
+    protected CargaService $cargaService;
+
+    public function mount(CargaService $cargaService)
+    {
+        $this->cargaService = $cargaService;
+        $this->cargas = $this->cargaService->all();      
+    }
 
 
 
@@ -91,12 +101,7 @@ class FormCarga extends Component
     }
 
 
-
-
-    public function mount()
-    {
-        $this->cargas = Carga::all();
-    }
+   
 
 
     public function query()

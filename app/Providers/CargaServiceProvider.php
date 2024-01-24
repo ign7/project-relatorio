@@ -3,20 +3,23 @@
 namespace App\Providers;
 
 use App\Services\CargaService;
+use App\Models\Carga;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class CargaServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      */
     public function register(): void
     {
-
+       
     }
 
+    
+
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      */
     public function boot(): void
     {
