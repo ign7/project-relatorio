@@ -18,7 +18,7 @@ class FormCarga extends Component
 
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
-    protected CargaService $cargaService;
+    protected  $cargaService;
 
     public function mount(CargaService $cargaService)
     {
