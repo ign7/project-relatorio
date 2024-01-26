@@ -8,6 +8,7 @@ use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
 use App\Models\Cliente;
+use App\Repository\CargaRepository;
 use App\Services\CargaService;
 use Livewire\Component;
 use Illuminate\Http\Response;
@@ -20,38 +21,47 @@ class FormCarga extends Component
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
     protected  $service;
+    protected  $rep;
 
-    public function mount(CargaService $cargaService)
+    public function mount(CargaService $cargaService, CargaRepository $repository)
     {
         $this->service = $cargaService;
-        $this->cargas = $this->service->all();      
+        $this->rep = $repository;
+        $this->cargas = $this->service->all();
     }
 
     public function hydrate()
     {
         $this->service = app(CargaService::class);
+        $this->rep = app(CargaRepository::class);
     }
 
 
     public function save()
     {
-       
-        // Verifica se já existe uma carga com o mesmo número
-        $cargaExistente = Carga::where('numero_carga', $this->numero_carga)->first();
-
-        if (!$this->service->findByColumn('numero_carga', $this->numero_carga)) {
-            $this->carga = Carga::create([
+        if ($this->service->findByColumn('numero_carga', $this->numero_carga)->first() == null) {
+            $carga = [
                 'numero_carga' => $this->numero_carga,
                 'user_id' => auth()->id(),
-            ]);
-
-            $this->show();
-            $this->showAlert = true;
-            session()->flash('sucesso', 'Número de carga cadastrado!');
-        } else {
-            $this->showAlert = true;
-            session()->flash('erro', 'Já existe uma carga com este número.');
+            ];
+            $this->service->register($carga, $this->rep);
+            return $this->succsessAlert();
         }
+        $this->FailAlert();
+    }
+
+
+    public function succsessAlert()
+    {
+        $this->show();
+        $this->showAlert = true;
+        return session()->flash('sucesso', 'Número de carga cadastrado!');
+    }
+
+    public function FailAlert()
+    {
+        $this->showAlert = true;
+        return session()->flash('erro', 'Já existe uma carga com este número.');
     }
 
     public function rules()
@@ -107,7 +117,7 @@ class FormCarga extends Component
     }
 
 
-   
+
 
 
     public function query()

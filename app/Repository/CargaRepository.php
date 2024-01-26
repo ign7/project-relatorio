@@ -12,4 +12,5 @@ class CargaRepository extends BaseRepository {
         parent::__construct($carga);
     }
 
+
 }
