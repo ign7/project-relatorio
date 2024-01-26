@@ -2,7 +2,9 @@
 
 namespace  App\Repository;
 
-abstract class BaseRepository
+use App\Interface\BaseRepositoryInterface;
+
+abstract class BaseRepository implements BaseRepositoryInterface
 {
     protected $obj;
 
