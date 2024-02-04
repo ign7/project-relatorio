@@ -14,7 +14,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex flex-row justify-between px-5 py-2">
                     <div
-                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-neutral-600">
+                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-blue-600">
                         <div class="relative overflow-hidden bg-cover bg-no-repeat">
 
                         </div>
@@ -31,7 +31,7 @@
                     </div>
 
                     <div
-                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-neutral-600">
+                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-blue-600">
                         <div class="relative overflow-hidden bg-cover bg-no-repeat">
 
                         </div>
@@ -49,7 +49,7 @@
 
 
                     <div
-                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-neutral-600">
+                        class="block max-w-[18rem] rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-blue-600">
                         <div class="relative overflow-hidden bg-cover bg-no-repeat">
 
                         </div>
