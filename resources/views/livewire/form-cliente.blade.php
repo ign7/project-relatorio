@@ -32,7 +32,7 @@
         <div>
 
             <div class="py-6">
-                <div class="bg-orange-500 p-4 rounded">
+                <div class="bg-blue-500 p-4 rounded">
                     <h1 class="font-bold text-3xl pb-4 text-white  ">Cadastrar Clientes</h1>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
                 <div class="flex flex-col gap-2 w-1/5 pl-4 pt-7">
                     <button wire:click.prevent="save"
-                        class="bg-transparent hover:bg-orange-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
+                        class="bg-transparent hover:bg-blue-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                         Lançar
                     </button>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="pr-8">
                     <div class="flex flex-col pl-4 pb-2">
                         <button wire:click.prevent="pesquisar"
-                            class="bg-transparent hover:bg-orange-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
+                            class="bg-transparent hover:bg-blue-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                             Pesquisar
                         </button>
                     </div>
@@ -100,7 +100,7 @@
 
                     <div class="flex flex-col pl-4">
                         <button wire:click.prevent="limpar"
-                            class="bg-transparent hover:bg-orange-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
+                            class="bg-transparent hover:bg-blue-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded">
                             Limpar
                         </button>
                     </div>

@@ -35,7 +35,7 @@
                     <div class="flex flex-col gap-2 w-full ">
                         <x-label for="selectuser" class="">Cidade:</x-label>
                         <select wire:model.live="cidade_id" id="selectuser" class="rounded-md">
-                            <option value="" selected>-- Cidades --</option>
+                            <option value="" selected>selecione a cidade</option>
                             @foreach ($cidades as $cidade)
                                 <option value="{{ $cidade->id }}">{{ $cidade->cidade }}</option>
                             @endforeach
@@ -70,7 +70,7 @@
                     <x-label for="selectuser" class="">Carga:</x-label>
                     <select wire:model.live="carga_id" id="selectuser" class="rounded-md">
 
-                        <option value="" selected>-- Cargas --</option>
+                        <option value="" selected>selecione a carga</option>
                         @foreach ($cargas as $carga)
                             <option value="{{ $carga->id }}">{{ $carga->numero_carga }}</option>
                         @endforeach
@@ -81,7 +81,7 @@
                     <x-label for="selectuser" class="">Cliente:</x-label>
                     <select wire:model.live="cliente_id" id="selectuser" class="rounded-md">
 
-                        <option value="" selected>-- clientes --</option>
+                        <option value="" selected>selecione o cliente</option>
                         @foreach ($clientes as $cliente)
                             <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
                         @endforeach

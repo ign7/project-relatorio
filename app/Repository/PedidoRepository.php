@@ -33,6 +33,7 @@ class PedidoRepository extends BaseRepository  /* implements PedidoInterface */
             'clientes.nome as nome_cliente',
             'cargas.numero_carga as numero_carga',
             'cargas.id as id_carga',
+            'pedidos.status as status'
         ])
         ->selectRaw('SUM(pedidos.valor_frete) as valor_total_frete_carga')
         ->join('cargas', function ($table) {
