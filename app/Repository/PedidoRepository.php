@@ -46,4 +46,50 @@ class PedidoRepository extends BaseRepository  /* implements PedidoInterface */
         ->get();
 
     }
+
+
+    public function getPedidosByCliente($cliente_id) 
+    {
+        
+        return Pedido::select(
+            'pedidos.id',
+            'pedidos.numero_pedido',
+            'pedidos.status',
+            'pedidos.numero_nota',
+            'pedidos.valor_frete',
+            'pedidos.valor_descarga',
+            'pedidos.data_solicitacao',
+            'pedidos.data_pagamento',
+            'cargas.numero_carga',
+            'cidades.cidade',
+            'clientes.nome'
+        )
+           
+            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
+            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+            ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
+            ->where('pedidos.cliente_id', $cliente_id)
+            ->get();
+    }
+
+
+    public function getPedidosQuery(){
+        return Pedido::select(
+            'pedidos.id',
+            'pedidos.numero_pedido',
+            'pedidos.status',
+            'pedidos.numero_nota',
+            'pedidos.valor_frete',
+            'pedidos.valor_descarga',
+            'pedidos.data_solicitacao',
+            'pedidos.data_pagamento',
+            'cargas.numero_carga',
+            'cidades.cidade',
+            'clientes.nome'
+        )
+            ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
+            ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+            ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
+            ->get();
+    }
 }

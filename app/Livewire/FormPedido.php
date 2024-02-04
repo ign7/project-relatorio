@@ -13,6 +13,7 @@ use League\Csv\Writer;
 
 use SplTempFileObject;
 use App\Models\Cliente;
+use App\Repository\PedidoRepository;
 use Livewire\Component;
 use Illuminate\Http\Response;
 
@@ -24,14 +25,25 @@ class FormPedido extends Component
     public $cargas, $cidades, $clientes, $result = array(), $show;
 
 
-    public function mount()
+    protected PedidoRepository $repository;
+
+
+    public function mount(PedidoRepository $repository)
     {
         $this->cargas = Carga::All();
         $this->cidades = Cidade::All();
         $this->clientes = Cliente::All();
+        $this->repository=$repository;
 
         $this->showtable();
     }
+
+
+    public function hydrate()
+    { 
+        $this->repository= app(PedidoRepository::class);
+    }
+
 
     public function rules()
     {
@@ -90,48 +102,8 @@ class FormPedido extends Component
 
     public function query()
     {
-        $pedidos = Pedido::all();
         $this->mode = 'pedido';
-        foreach ($pedidos as $pedido) {
-            $num_pedido = $pedido->numero_pedido;
-            /* $cidade = $pedido->cidade; */
-            $num_nota_fiscal = $pedido->numero_nota;
-            $valor_frete = $pedido->valor_frete;
-            $data_solicitacao = $pedido->data_solicitacao;
-
-            $cliente_id = $pedido->cliente_id;
-            $carga_id = $pedido->carga_id;
-            $descarga = $pedido->valor_descarga;
-            $cidade_id = $pedido->cidade_id;
-
-            $cidadeOBJ = Cidade::find($cidade_id);
-            
-                $cidade = $cidadeOBJ->cidade;
-        
-           
-            $selectcarga = Carga::find($carga_id);
-
-            $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
-
-            $selectcliente = Cliente::find($cliente_id);
-
-            $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-
-
-            $this->result[] = [
-                'id' => $pedido->id,
-                'numero_pedido' => $num_pedido,
-                'cidade' => $cidade,
-                'numero_nota' => $num_nota_fiscal,
-                'valor_frete' => $valor_frete,
-                'valor_descarga' => $descarga,
-                'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
-                'numero_carga' => $numero_carga,
-                'nome_cliente' => $nome_cliente,
-            ];
-        }
-
-        return $this->result;
+        return $this->result=$this->repository->getPedidosQuery();
     }
 
     public function exportar()

@@ -69,30 +69,12 @@ final class PedidoTable extends PowerGridComponent
 
 
         if ($this->mode == 'pedido') {
-
             $this->frete = 0;
             foreach ($this->result as $valor) {
                 $this->frete += $valor['valor_frete'];
             }
             $this->getTotalFretepedido();
-
-            return Pedido::select(
-                'pedidos.id',
-                'pedidos.numero_pedido',
-                'pedidos.status',
-                'pedidos.numero_nota',
-                'pedidos.valor_frete',
-                'pedidos.valor_descarga',
-                'pedidos.data_solicitacao',
-                'pedidos.data_pagamento',
-                'cargas.numero_carga',
-                'cidades.cidade',
-                'clientes.nome'
-            )
-                ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
-                ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
-                ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
-                ->get();
+            return $this->result;
         } else {
             return collect();
         }
