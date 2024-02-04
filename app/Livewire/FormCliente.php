@@ -8,6 +8,7 @@ use League\Csv\Writer;
 use SplTempFileObject;
 use App\Models\Cliente;
 use Livewire\Component;
+use App\Repository\PedidoRepository;
 
 class FormCliente extends Component
 {
@@ -15,7 +16,17 @@ class FormCliente extends Component
     public $nome,$id_cliente,$cliente,$mode,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
     
 
+    protected PedidoRepository $pedido_repository;
 
+    public function mount(PedidoRepository $pedido_repository){
+        $this->clientes = Cliente::all();
+        $this->pedido_repository=$pedido_repository;
+    }
+
+    public function hydrate()
+    { 
+        $this->pedido_repository=app(PedidoRepository::class);
+    }
 
     public function rules(){
         $rule=[
@@ -77,9 +88,7 @@ class FormCliente extends Component
 }
 
 
-public function mount(){
-    $this->clientes = Cliente::all();
-}
+
 
 public function query()
 {
@@ -87,7 +96,9 @@ public function query()
 
     $this->mode='cliente';
 
-    $pedidos=$clienteselecionado->pedidos;
+    
+
+    /* $pedidos=$clienteselecionado->pedidos;
     
      foreach ($pedidos as $pedido) {
         $num_pedido = $pedido->numero_pedido;
@@ -122,9 +133,9 @@ public function query()
             'nome_cliente' => $nome_cliente,
             'valor_total_frete_carga' =>$totalfrete,
         ];
-    } 
+    }  */
 
-    return $this->result;
+    return $this->result=$this->pedido_repository->getPedidosByCliente($this->selectcliente);
 }
 
 
