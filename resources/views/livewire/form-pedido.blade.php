@@ -30,6 +30,16 @@
         @endif
 
         <div>
+            <div>
+                <h1
+                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl ">
+                    Controle <span
+                        class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">de
+                        Pedidos</span></h1>
+                <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Visualização e cadastro de
+                    Pedidos.</p>
+
+            </div>
             <div class="flex flex-col gap-2 w-1/3 ">
                 <div class="flex flex-row items-center">
                     <div class="flex flex-col gap-2 w-full ">
