@@ -133,7 +133,7 @@ class FormCarga extends Component
     {
        
          $this->mode = 'carga';
-         $cargaselecionada = Carga::find($this->selectcarga);
+        /*  $cargaselecionada = Carga::find($this->selectcarga);
         $pedidos = $cargaselecionada->pedidos;
         foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
@@ -172,9 +172,9 @@ class FormCarga extends Component
                 'valor_total_frete_carga' => $totalfrete,
             ];
         } 
-        return $this->result;
+        return $this->result; */
         
-        /* return $this->result= $this->repositoryPedido->getPedidosByCarga($this->selectcarga)->toArray();  */
+         return $this->result= $this->repositoryPedido->getPedidosByCarga($this->selectcarga)->toArray(); 
     }
 
 
