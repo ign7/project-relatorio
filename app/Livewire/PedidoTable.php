@@ -27,7 +27,7 @@ final class PedidoTable extends PowerGridComponent
 
     use WithExport;
 
-    public $result = array(), $frete, $mode, $idcarga, $id_cliente;
+    public $result = array(), $resultCarga, $frete, $mode, $idcarga, $id_cliente;
 
     protected $listeners = ['opentable', 'datasource'];
 
@@ -35,35 +35,11 @@ final class PedidoTable extends PowerGridComponent
     public function datasource(): ?Collection
     {
         if ($this->mode == 'carga') {
-            $this->frete=0;
-            foreach ($this->result as $valor) {
-                $this->frete = $valor['valor_total_frete_carga'];
-                $this->idcarga = $valor['id_carga'];
-            }
-            $this->getTotalFreteCarga();
-
-            return Pedido::select(
-                'pedidos.id',
-                'pedidos.numero_pedido',
-                'pedidos.status',
-                'pedidos.numero_nota',
-                'pedidos.valor_frete',
-                'pedidos.valor_descarga',
-                'pedidos.data_solicitacao',
-                'pedidos.data_pagamento',
-                'cargas.numero_carga',
-                'cidades.cidade',
-                'clientes.nome'
-            )
-                ->join('cargas', 'pedidos.carga_id', '=', 'cargas.id')
-                ->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
-                ->join('cidades', 'pedidos.cidade_id', '=', 'cidades.id')
-                ->where('pedidos.carga_id', $this->idcarga)
-                ->get();
+            return $this->resultCarga;
         }
 
         if ($this->mode == 'cliente') {
-            $this->frete=0;
+            $this->frete = 0;
             foreach ($this->result as $valor) {
                 $this->frete += $valor['valor_frete'];
                 $this->id_cliente = $valor['id_cliente'];
@@ -94,7 +70,7 @@ final class PedidoTable extends PowerGridComponent
 
         if ($this->mode == 'pedido') {
 
-            $this->frete=0;
+            $this->frete = 0;
             foreach ($this->result as $valor) {
                 $this->frete += $valor['valor_frete'];
             }
@@ -270,13 +246,13 @@ final class PedidoTable extends PowerGridComponent
         return [
             Filter::datepicker('data_solicitacao'),
             Filter::datepicker('data_pagamento'),
-           
-                Filter::select('status', 'status')
-                    ->dataSource(Pedido::select('status')->distinct()->get())
-                    ->optionValue('status')
-                    ->optionLabel('status'),
-           
-            
+
+            Filter::select('status', 'status')
+                ->dataSource(Pedido::select('status')->distinct()->get())
+                ->optionValue('status')
+                ->optionLabel('status'),
+
+
         ];
     }
 

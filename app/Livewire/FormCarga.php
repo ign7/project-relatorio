@@ -27,14 +27,14 @@ class FormCarga extends Component
     protected  $rep;
     protected  $repositoryPedido;
 
-    
-    
 
-     public function mount(CargaService $cargaService, CargaRepository $repository,PedidoRepository $repositoryPedido)
+
+
+    public function mount(CargaService $cargaService, CargaRepository $repository, PedidoRepository $repositoryPedido)
     {
         $this->service = $cargaService;
         $this->rep = $repository;
-        $this->repositoryPedido=$repositoryPedido;
+        $this->repositoryPedido = $repositoryPedido;
         $this->cargas = $this->service->all();
     }
 
@@ -43,7 +43,14 @@ class FormCarga extends Component
         $this->service = app(CargaService::class);
         $this->rep = app(CargaRepository::class);
         $this->repositoryPedido = app(PedidoRepository::class);
-    } 
+    }
+
+
+    public function query()
+    {
+        $this->mode = 'carga';
+        return $this->result = $this->repositoryPedido->getPedidosByCarga($this->selectcarga);
+    }
 
 
     public function save()
@@ -123,58 +130,6 @@ class FormCarga extends Component
     public function closealert()
     {
         $this->showAlert = false;
-    }
-
-
-
-
-
-    public function query()
-    {
-       
-         $this->mode = 'carga';
-        /*  $cargaselecionada = Carga::find($this->selectcarga);
-        $pedidos = $cargaselecionada->pedidos;
-        foreach ($pedidos as $pedido) {
-            $num_pedido = $pedido->numero_pedido;
-            $cidade = $pedido->cidade;
-            $num_nota_fiscal = $pedido->numero_nota;
-            $valor_frete = $pedido->valor_frete;
-            $data_solicitacao = $pedido->data_solicitacao;
-
-            $cliente_id = $pedido->cliente_id;
-            $carga_id = $pedido->carga_id;
-            $descarga = $pedido->valor_descarga;
-
-            $selectcarga = Carga::find($carga_id);
-
-            $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
-
-            $selectcliente = Cliente::find($cliente_id);
-
-            $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-
-            $totalfrete = $cargaselecionada->valor_total_frete += $pedido->valor_frete;
-
-
-            $this->result[] = [
-
-                'id' => $pedido->id,
-                'id_carga' => $cargaselecionada->id,
-                'numero_pedido' => $num_pedido,
-                'cidade' => $cidade,
-                'numero_nota' => $num_nota_fiscal,
-                'valor_frete' => $valor_frete,
-                'valor_descarga' => $descarga,
-                'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
-                'numero_carga' => $numero_carga,
-                'nome_cliente' => $nome_cliente,
-                'valor_total_frete_carga' => $totalfrete,
-            ];
-        } 
-        return $this->result; */
-        
-         return $this->result= $this->repositoryPedido->getPedidosByCarga($this->selectcarga)->toArray(); 
     }
 
 
