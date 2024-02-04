@@ -13,50 +13,53 @@ use App\Repository\PedidoRepository;
 class FormCliente extends Component
 {
 
-    public $nome,$id_cliente,$cliente,$mode,$showAlert,$result=array(),$clientes=[],$selectcliente,$show;
-    
+    public $nome, $id_cliente, $cliente, $mode, $showAlert, $result = array(), $clientes = [], $selectcliente, $show;
+
 
     protected PedidoRepository $pedido_repository;
 
-    public function mount(PedidoRepository $pedido_repository){
+    public function mount(PedidoRepository $pedido_repository)
+    {
         $this->clientes = Cliente::all();
-        $this->pedido_repository=$pedido_repository;
+        $this->pedido_repository = $pedido_repository;
     }
 
     public function hydrate()
-    { 
-        $this->pedido_repository=app(PedidoRepository::class);
+    {
+        $this->pedido_repository = app(PedidoRepository::class);
     }
 
-    public function rules(){
-        $rule=[
-            'selectcliente'=>'required',
+    public function rules()
+    {
+        $rule = [
+            'selectcliente' => 'required',
         ];
 
         return $rule;
     }
-    public function save(){
-        
+    public function save()
+    {
+
         $clienteExistente = Cliente::where('nome', $this->nome)->first();
 
-        if(!$clienteExistente){
-            $this->cliente=Cliente::create([
-                'nome'=> $this->nome,
-              ]);
-              $this->showAlert = true;
-              session()->flash('sucesso', 'Cliente cadastrado !!');
-              return redirect()->route('clientes');
-        }else{
+        if (!$clienteExistente) {
+            $this->cliente = Cliente::create([
+                'nome' => $this->nome,
+            ]);
             $this->showAlert = true;
-              session()->flash('erro', 'Cliente ja existente!!');
+            session()->flash('sucesso', 'Cliente cadastrado !!');
+            return redirect()->route('clientes');
+        } else {
+            $this->showAlert = true;
+            session()->flash('erro', 'Cliente ja existente!!');
         }
     }
 
     public function delete()
     {
         $clienteachada = Cliente::find($this->selectcliente);
-        $pedidoscliente=$clienteachada->pedidos()->get();
-        foreach($pedidoscliente as $pedidos){
+        $pedidoscliente = $clienteachada->pedidos()->get();
+        foreach ($pedidoscliente as $pedidos) {
             $pedidos->delete();
         }
         $clienteachada->delete();
@@ -71,71 +74,71 @@ class FormCliente extends Component
     }
 
 
-    public function showtable(){
-        $this->show=true;
+    public function showtable()
+    {
+        $this->show = true;
         $this->query();
     }
 
-    public function pesquisar(){  
-        $this->validate();     
-         $this->showtable();        
+    public function pesquisar()
+    {
+        $this->validate();
+        $this->showtable();
     }
-    
-
-    public function limpar(){       
-        $this->show=false;   
-        $this->result=[];     
-}
 
 
+    public function limpar()
+    {
+        $this->show = false;
+        $this->result = [];
+    }
+
+    public function query()
+    {
+        $this->mode = 'cliente';
+        return $this->result = $this->pedido_repository->getPedidosByCliente($this->selectcliente);
+    }
 
 
-public function query()
-{
-    $this->mode='cliente';
-    return $this->result=$this->pedido_repository->getPedidosByCliente($this->selectcliente);
-}
+    public function exportar()
+    {
+        $header  = [
+            'id',
+            'pedido',
+            'cidade',
+            'notafiscais',
+            'valor_frete',
+            'valor_descarga',
+            'data',
+            'numero_carga',
+            'nome_cliente',
+        ];
 
 
-public function exportar()
-{
-    $header  = [
-        'id',
-        'pedido',
-        'cidade',
-        'notafiscais',
-        'valor_frete',
-        'valor_descarga',
-        'data',
-        'numero_carga',
-        'nome_cliente',
-    ];
+        $records = $this->query();
 
 
-    $records = $this->query();
+
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
 
 
-   
-    $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv->insertOne($header);
 
-   
-    $csv->insertOne($header);
 
-   
-    $csv->insertAll($records);
+        $csv->insertAll($records);
 
-  
-    $csvContent = $csv->toString();
 
-   
-    $csvFilePath = storage_path('app/relatorio.csv'); 
+        $csvContent = $csv->toString();
 
-   
-    file_put_contents($csvFilePath, $csvContent);
 
-    
-    return response()->download($csvFilePath)->deleteFileAfterSend(true);
-}
+        $csvFilePath = storage_path('app/relatorio.csv');
+
+
+        file_put_contents($csvFilePath, $csvContent);
+
+
+        return response()->download($csvFilePath)->deleteFileAfterSend(true);
+    }
 
 
 
