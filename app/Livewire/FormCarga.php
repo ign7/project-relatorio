@@ -10,6 +10,7 @@ use SplTempFileObject;
 use App\Models\Cliente;
 use App\Repository\BaseRepository;
 use App\Repository\CargaRepository;
+use App\Repository\PedidoRepository;
 use App\Services\CargaService;
 use Livewire\Component;
 use Illuminate\Http\Response;
@@ -19,18 +20,21 @@ use Ramsey\Uuid\Type\Integer;
 class FormCarga extends Component
 {
 
+
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
     protected  $service;
     protected  $rep;
+    protected  $repositoryPedido;
 
     
     
 
-     public function mount(CargaService $cargaService, CargaRepository $repository)
+     public function mount(CargaService $cargaService, CargaRepository $repository,PedidoRepository $repositoryPedido)
     {
         $this->service = $cargaService;
         $this->rep = $repository;
+        $this->repositoryPedido=$repositoryPedido;
         $this->cargas = $this->service->all();
     }
 
@@ -38,6 +42,7 @@ class FormCarga extends Component
     {
         $this->service = app(CargaService::class);
         $this->rep = app(CargaRepository::class);
+        $this->repositoryPedido = app(PedidoRepository::class);
     } 
 
 
@@ -48,7 +53,7 @@ class FormCarga extends Component
                 'numero_carga' => $this->numero_carga,
                 'user_id' => auth()->id(),
             ];
-            $this->service->register($carga, $this->rep);
+            $this->service->register($carga);
             return $this->succsessAlert();
         }
         $this->FailAlert();
@@ -126,11 +131,10 @@ class FormCarga extends Component
 
     public function query()
     {
-        $this->mode = 'carga';
-        $cargaselecionada = Carga::find($this->selectcarga);
-
+       
+         $this->mode = 'carga';
+         $cargaselecionada = Carga::find($this->selectcarga);
         $pedidos = $cargaselecionada->pedidos;
-
         foreach ($pedidos as $pedido) {
             $num_pedido = $pedido->numero_pedido;
             $cidade = $pedido->cidade;
@@ -167,9 +171,10 @@ class FormCarga extends Component
                 'nome_cliente' => $nome_cliente,
                 'valor_total_frete_carga' => $totalfrete,
             ];
-        }
-
+        } 
         return $this->result;
+        
+        /* return $this->result= $this->repositoryPedido->getPedidosByCarga($this->selectcarga)->toArray();  */
     }
 
 
@@ -187,28 +192,19 @@ class FormCarga extends Component
             'nome_cliente',
         ];
 
-
         $records = $this->query();
-
-
 
         $csv = Writer::createFromFileObject(new SplTempFileObject());
 
-
         $csv->insertOne($header);
-
 
         $csv->insertAll($records);
 
-
         $csvContent = $csv->toString();
-
 
         $csvFilePath = storage_path('app/relatorio.csv');
 
-
         file_put_contents($csvFilePath, $csvContent);
-
 
         return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }

@@ -16,8 +16,8 @@ class CargaService implements CargaInterface{
         $this->cargaRepository = $cargaRepository;
     }
 
-    public function register(array $attributes, CargaRepository $cargaRepository){
-      return $cargaRepository->save($attributes);
+    public function register(array $attributes){
+      return $this->cargaRepository->save($attributes);
     }
 
     public function findByColumn(string $column, $value)
@@ -29,5 +29,4 @@ class CargaService implements CargaInterface{
     {
         return $this->cargaRepository->all();
     }
-        
 }
