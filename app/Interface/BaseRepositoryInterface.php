@@ -5,7 +5,7 @@ namespace  App\Interface;
 use App\Models\Carga;
 use App\Repository\CargaRepository;
 
-interface BaseRepositoryInterface extends ServiceInterface {
+interface BaseRepositoryInterface  {
 
     public function all();
     

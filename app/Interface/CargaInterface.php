@@ -7,7 +7,7 @@ use App\Repository\CargaRepository;
 
 interface CargaInterface extends ServiceInterface {
 
-    public function register(array $attributes, CargaRepository $cargaRepository);
+    //public function register(array $attributes, CargaRepository $cargaRepository);
     
 }
 

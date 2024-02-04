@@ -8,6 +8,7 @@ use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
 use App\Models\Cliente;
+use App\Repository\BaseRepository;
 use App\Repository\CargaRepository;
 use App\Services\CargaService;
 use Livewire\Component;
@@ -23,7 +24,10 @@ class FormCarga extends Component
     protected  $service;
     protected  $rep;
 
-    public function mount(CargaService $cargaService, CargaRepository $repository)
+    
+    
+
+     public function mount(CargaService $cargaService, CargaRepository $repository)
     {
         $this->service = $cargaService;
         $this->rep = $repository;
@@ -34,7 +38,7 @@ class FormCarga extends Component
     {
         $this->service = app(CargaService::class);
         $this->rep = app(CargaRepository::class);
-    }
+    } 
 
 
     public function save()

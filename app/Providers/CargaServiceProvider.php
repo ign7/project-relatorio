@@ -13,7 +13,7 @@ class CargaServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-       
+    
     }
 
     

@@ -54,9 +54,9 @@
                     <x-label for="selectcarga" class="">Pesquisar Carga:</x-label>
                     <select wire:model.live="selectcarga" id="selectcarga" class="rounded-md">
 
-                        <option value="" selected>-- Cargas --</option>
+                        <option value="" selected>seleicone a carga</option>
                         @foreach ($cargas as $carga)
-                            <option value="{{ $carga->id }}">{{ $carga->numero_carga }}</option>
+                            <option value="{{ $carga->id }}">C_NUM_{{ $carga->numero_carga }}</option>
                         @endforeach
                     </select>
                     @error('selectcarga')
