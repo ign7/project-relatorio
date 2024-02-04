@@ -92,49 +92,7 @@ class FormCliente extends Component
 
 public function query()
 {
-    $clienteselecionado =Cliente::find($this->selectcliente);
-
     $this->mode='cliente';
-
-    
-
-    /* $pedidos=$clienteselecionado->pedidos;
-    
-     foreach ($pedidos as $pedido) {
-        $num_pedido = $pedido->numero_pedido;
-        $cidade = $pedido->cidade;
-        $num_nota_fiscal = $pedido->numero_nota;
-        $valor_frete = $pedido->valor_frete;
-        $data_solicitacao = $pedido->data_solicitacao;
-
-        $cliente_id = $pedido->cliente_id;
-        $carga_id = $pedido->carga_id;
-        $descarga = $pedido->valor_descarga;
-
-        $selectcarga = Carga::find($carga_id);
-
-        $numero_carga = $selectcarga ? $selectcarga->numero_carga : null;
-
-        $selectcliente = Cliente::find($cliente_id);
-        $totalfrete=$selectcarga->valor_total_frete+=$pedido->valor_frete;
-        $nome_cliente = $selectcliente ? $selectcliente->nome : null;
-        $this->id_cliente=$selectcliente->id;
-
-        $this->result[] = [
-            'id'=>$pedido->id,
-            'id_cliente'=>$this->id_cliente,
-            'numero_pedido' => $num_pedido,
-            'cidade' => $cidade,
-            'numero_nota' => $num_nota_fiscal,
-            'valor_frete' => $valor_frete,
-            'valor_descarga' => $descarga,
-            'data_solicitacao' => date('d/m/Y', strtotime($data_solicitacao)),
-            'numero_carga' => $numero_carga,
-            'nome_cliente' => $nome_cliente,
-            'valor_total_frete_carga' =>$totalfrete,
-        ];
-    }  */
-
     return $this->result=$this->pedido_repository->getPedidosByCliente($this->selectcliente);
 }
 
