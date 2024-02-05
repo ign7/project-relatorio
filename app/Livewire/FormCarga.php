@@ -2,25 +2,27 @@
 
 namespace App\Livewire;
 
-use App\Interface\CargaInterface;
 use App\Models\Carga;
 use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
 use App\Models\Cliente;
-use App\Repository\BaseRepository;
-use App\Repository\CargaRepository;
-use App\Repository\PedidoRepository;
-use App\Services\CargaService;
 use Livewire\Component;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Type\Integer;
+use App\Services\CargaService;
+use App\Interface\CargaInterface;
+use App\Repository\BaseRepository;
+use App\Repository\CargaRepository;
+use App\Repository\PedidoRepository;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 
 class FormCarga extends Component
 {
 
-
+    use LivewireAlert;
+    
     public $numero_carga, $carga, $mode, $showAlert = false, $result = array(), $cargas = [], $selectcarga, $show;
 
     protected  $service;
@@ -61,24 +63,12 @@ class FormCarga extends Component
                 'user_id' => auth()->id(),
             ];
             $this->service->register($carga);
-            return $this->succsessAlert();
+            $this->show();
+           return $this->alert('success', 'Número de carga cadastrado!');
         }
-        $this->FailAlert();
+        return $this->alert('error', 'Já existe uma carga com este número.');
     }
 
-
-    public function succsessAlert()
-    {
-        $this->show();
-        $this->showAlert = true;
-        return session()->flash('sucesso', 'Número de carga cadastrado!');
-    }
-
-    public function FailAlert()
-    {
-        $this->showAlert = true;
-        return session()->flash('erro', 'Já existe uma carga com este número.');
-    }
 
     public function rules()
     {

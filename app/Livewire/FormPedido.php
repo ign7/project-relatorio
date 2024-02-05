@@ -13,13 +13,15 @@ use League\Csv\Writer;
 
 use SplTempFileObject;
 use App\Models\Cliente;
-use App\Repository\PedidoRepository;
 use Livewire\Component;
 use Illuminate\Http\Response;
+use App\Repository\PedidoRepository;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class FormPedido extends Component
 {
 
+    use LivewireAlert;
     public $valor_frete, $mode, $num_nota_fiscal, $num_pedido, $cidade, $cliente_id, $nome_cliente, $pedido, $showAlert, $data_solicitacao, $descarga, $carga_id, $cidade_id;
 
     public $cargas, $cidades, $clientes, $result = array(), $show;
@@ -33,15 +35,15 @@ class FormPedido extends Component
         $this->cargas = Carga::All();
         $this->cidades = Cidade::All();
         $this->clientes = Cliente::All();
-        $this->repository=$repository;
+        $this->repository = $repository;
 
         $this->showtable();
     }
 
 
     public function hydrate()
-    { 
-        $this->repository= app(PedidoRepository::class);
+    {
+        $this->repository = app(PedidoRepository::class);
     }
 
 
@@ -83,14 +85,10 @@ class FormPedido extends Component
                 'carga_id' => $this->carga_id,
                 'cidade_id' => $this->cidade_id,
             ]);
-
-            $this->showAlert = true;
-            session()->flash('sucesso', 'Pedido  cadastrado !!');
+            $this->alert('success', 'Pedido  cadastrado !!');
             return redirect()->route('pedidos');
-        } else {
-            $this->showAlert = true;
-            session()->flash('erro', 'numero de Pedido  ja existente !!');
         }
+        return $this->alert('error', 'numero de Pedido  ja existente !!');
     }
 
 
@@ -103,7 +101,7 @@ class FormPedido extends Component
     public function query()
     {
         $this->mode = 'pedido';
-        return $this->result=$this->repository->getPedidosQuery();
+        return $this->result = $this->repository->getPedidosQuery();
     }
 
     public function exportar()

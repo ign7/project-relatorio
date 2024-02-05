@@ -9,10 +9,12 @@ use SplTempFileObject;
 use App\Models\Cliente;
 use Livewire\Component;
 use App\Repository\PedidoRepository;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class FormCliente extends Component
 {
 
+    use LivewireAlert;
     public $nome, $id_cliente, $cliente, $mode, $showAlert, $result = array(), $clientes = [], $selectcliente, $show;
 
 
@@ -39,20 +41,15 @@ class FormCliente extends Component
     }
     public function save()
     {
-
         $clienteExistente = Cliente::where('nome', $this->nome)->first();
-
         if (!$clienteExistente) {
             $this->cliente = Cliente::create([
                 'nome' => $this->nome,
             ]);
-            $this->showAlert = true;
-            session()->flash('sucesso', 'Cliente cadastrado !!');
+            $this->alert('success', 'Cliente cadastrado!');
             return redirect()->route('clientes');
-        } else {
-            $this->showAlert = true;
-            session()->flash('erro', 'Cliente ja existente!!');
         }
+        return $this->alert('error', 'Ops !!Cliente ja cadastrado..');
     }
 
     public function delete()
@@ -67,11 +64,6 @@ class FormCliente extends Component
     }
 
 
-
-    public function closealert()
-    {
-        $this->showAlert = false;
-    }
 
 
     public function showtable()

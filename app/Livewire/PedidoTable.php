@@ -239,7 +239,7 @@ final class PedidoTable extends PowerGridComponent
                 ->when(function ($row) {
                     return $row->status == 'pendente';
                 })
-                ->setAttribute('class', 'hover:bg-orange-500 hover:text-white'),
+                ->setAttribute('class', 'hover:bg-blue-500 hover:text-white'),
 
             Rule::rows()
                 ->when(function ($row) {
@@ -247,11 +247,11 @@ final class PedidoTable extends PowerGridComponent
                 })
                 ->setAttribute('class', 'hover:bg-red-500'),
 
-            Rule::rows()
+             Rule::rows()
                 ->when(function ($row) {
                     return $row->status == 'pago';
                 })
-                ->setAttribute('class', 'hover:bg-blue-500 hover:text-white'),
+                ->setAttribute('class', 'text-white bg-green-500'), 
         ];
     }
 }

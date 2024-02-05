@@ -59,7 +59,7 @@
                     <x-label for="selectcliente" class="">Pesquisar Cliente:</x-label>
                     <select wire:model.live="selectcliente" id="selectcliente" class="rounded-md">
 
-                        <option value="" selected>-- clientes --</option>
+                        <option value="" selected>selecione o cliente</option>
                         @foreach ($clientes as $cliente)
                             <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
                         @endforeach

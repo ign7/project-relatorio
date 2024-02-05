@@ -6,6 +6,7 @@ use App\Models\Cidade;
 use App\Models\Pedido;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class FormPedidoModal extends ModalComponent
 {
@@ -14,7 +15,8 @@ class FormPedidoModal extends ModalComponent
     $selectestado;
 
     
-
+    use LivewireAlert;
+    
     public function rules()
     {
         $rule = [
@@ -34,6 +36,7 @@ class FormPedidoModal extends ModalComponent
             'estado' => $this->selectestado,
         ]);
         if($this->cidadeModel){
+            $this->alert('success', 'Cidade Cadastrada!');
             $this->closeModal();
             return redirect()->route('pedidos');
         }
