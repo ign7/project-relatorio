@@ -9,7 +9,7 @@
             <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">controle e versionamento de
                 pedidos,cargas e clientes.</p>
         </div>
-        <div class="pt-6 max-w-7xl mx-auto sm:px-6 lg:px-8"> 
+        {{-- <div class="pt-6 max-w-7xl mx-auto sm:px-6 lg:px-8"> 
             <div class="pt-4 bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex flex-row justify-between px-5 py-2">
                     <div class="block max-w-[18rem] rounded-lg bg-blue-500 hover:bg-blue-600 transition-transform transform scale-105">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         
     </div>
 
