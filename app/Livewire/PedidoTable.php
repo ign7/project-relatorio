@@ -110,7 +110,7 @@ final class PedidoTable extends PowerGridComponent
                     return '<span class=" rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">PENDENTE</span>';
                 }
                 if ($model->status == 'pago') {
-                    return '<p class=" rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">PAGAMENTO EFETIVADO</p>';
+                    return '<p class=" rounded rounded bg-green-500 hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">PAGAMENTO EFETIVADO</p>';
                 }
                 if ($model->status == 'nao_pago') {
                     return '<p class="rounded rounded hover:text-white border-2 px-2 py-1 rounded-2xl inline-block">NÃO EFETIVADO</p>';
@@ -235,6 +235,12 @@ final class PedidoTable extends PowerGridComponent
                 ->when(fn ($row) => $row->status == 'pago')
                 ->hide(),
 
+                Rule::rows()
+                ->when(function ($row) {
+                    return $row->status == 'pago';
+                })
+                ->setAttribute('class', 'bg-gray-200'), 
+
             Rule::rows()
                 ->when(function ($row) {
                     return $row->status == 'pendente';
@@ -247,11 +253,7 @@ final class PedidoTable extends PowerGridComponent
                 })
                 ->setAttribute('class', 'hover:bg-red-500'),
 
-             Rule::rows()
-                ->when(function ($row) {
-                    return $row->status == 'pago';
-                })
-                ->setAttribute('class', 'text-white bg-green-500'), 
+             
         ];
     }
 }
