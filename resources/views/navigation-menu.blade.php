@@ -37,7 +37,7 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex hover:bg-gray-200 " >
                     <x-nav-link href="{{ route('custos') }}" :active="request()->routeIs('custos')">
-                        {{ __('Custos') }}
+                        {{ __('Veiculos e Custos') }}
                     </x-nav-link>
                 </div>
 
