@@ -55,7 +55,7 @@
                 <div class="flex flex-row items-center">
                     <div class="flex flex-col gap-2 w-full ">
                         <x-label for="selectuser" class="">Carga:</x-label>
-                        <livewire:search-dropdown :modelClassName="'App\Models\Carga'" :column="'numero_carga'" />
+                        <livewire:search-dropdown :modelClassName="'App\Models\Carga'" :column="'numero_carga'" :mode="'carga'" />
                             @error('carga_id')
                                 <span class="text-red-500">{{ $message }}</span>
                             @enderror
@@ -64,11 +64,7 @@
 
                     <div class="flex flex-col gap-2 pl-4 w-full ">
                         <x-label for="selectuser" class="">Veiculo:</x-label>
-                        <select wire:model.live="veiculo_id" id="selectuser" class="rounded-md">
-                            <option value="" selected>selecione a veiculo</option>
-                            {{-- @foreach ($veiculos as $veiculo)
-                                <option value="{{ $veiculo->id }}">{{ $veiculo->veiculo }}</option>
-                            @endforeach --}}
+                        <livewire:search-dropdown :modelClassName="'App\Models\Veiculo'" :column="'name'" :mode="'veiculo'" />
                             @error('veiculo_id')
                                 <span class="text-red-500">{{ $message }}</span>
                             @enderror

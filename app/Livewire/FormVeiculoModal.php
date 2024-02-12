@@ -26,14 +26,15 @@ class FormVeiculoModal extends ModalComponent
         $this->service = $service;
     }
 
-    public function setIdUser($search_id)
+    public function setIdUser($search_id,$mode)
     {
+        dump($mode);
         $this->user_id = $search_id;
     }
 
     public function saveVeiculo()
     {
-        
+
         $atributos = [
             'name' => $this->name,
             'placa' => $this->placa,

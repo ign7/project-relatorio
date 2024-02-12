@@ -36,7 +36,7 @@
 
                 <div class="w-1/2 flex flex-col gap-2 pb-4 pr-2 pl-4">
                     <x-label for="selectcontrato" class="">Proprietario:</x-label>
-                    <livewire:search-dropdown :modelClassName="'App\Models\User'" :column="'name'" />
+                    <livewire:search-dropdown :modelClassName="'App\Models\User'" :column="'name'" :mode="'veiculo'" />
                 </div>
             </div>
 
