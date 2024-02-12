@@ -39,4 +39,10 @@ Route::middleware([
     Route::get('/clientes', function () {
         return view('clientes');
     })->name('clientes');
+
+
+    Route::get('/custos', function () {
+        return view('custos');
+    })->name('custos');
+
 });
