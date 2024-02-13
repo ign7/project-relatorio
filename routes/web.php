@@ -45,4 +45,8 @@ Route::middleware([
         return view('custos');
     })->name('custos');
 
+    Route::get('/controle', function () {
+        return view('page-controle');
+    })->name('controle');
+
 });
