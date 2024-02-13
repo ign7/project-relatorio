@@ -51,9 +51,9 @@
                 </div>
 
             </div>
-            <div class="flex flex-col gap-2 w-1/3 ">
+            <div class="flex flex-col gap-2 w-full ">
                 <div class="flex flex-row items-center">
-                    <div class="flex flex-col gap-2 w-full ">
+                    <div class="flex flex-col gap-2 w-1/3 ">
                         <x-label for="selectuser" class="">Carga:</x-label>
                         <livewire:search-dropdown :modelClassName="'App\Models\Carga'" :column="'numero_carga'" :mode="'carga'" />
                             @error('carga_id')
@@ -62,7 +62,7 @@
                         </select>
                     </div>
 
-                    <div class="flex flex-col gap-2 pl-4 w-full ">
+                    <div class="flex flex-col gap-2 pl-4 w-1/3 ">
                         <x-label for="selectuser" class="">Veiculo:</x-label>
                         <livewire:search-dropdown :modelClassName="'App\Models\Veiculo'" :column="'name'" :mode="'veiculo'" />
                             @error('veiculo_id')
@@ -71,7 +71,15 @@
                         </select>
                     </div>
                 </div>
-                @error('cidade')
+
+                <div class="flex flex-col gap-2 w-full ">
+                    <x-label for="" class="">Titulo:</x-label>
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="titulo" />
+                    @error('titulo')
+                        <span class="text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+                @error('titulo')
                     <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
@@ -100,9 +108,9 @@
 
             <div class="flex py-2">
 
-                <div class="flex flex-col gap-2 w-1/3 px-2">
+                <div class="flex flex-col gap-2 w-1/3 ">
                     <x-label for="selectcontrato" class="">Pedagio:</x-label>
-                    <x-input value="" class="rounded-md" type="text" wire:model.live="pedagio" />
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="pedagio" />
                     @error('pedagio')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
@@ -138,6 +146,14 @@
                     <x-label for="inicaldatePicked" class="">Descarga:</x-label>
                     <x-input value="" class="rounded-md" type="number" wire:model.live="descarga" />
                     @error('descarga')
+                    @enderror
+                </div>
+
+                <div class="flex flex-col gap-2 w-full px-2">
+                    <x-label for="" class="">descricao:</x-label>
+                    <x-input value="" class="rounded-md" type="text" wire:model.live="descricao" />
+                    @error('descricao')
+                        <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
