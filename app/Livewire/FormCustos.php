@@ -7,7 +7,21 @@ use Livewire\Component;
 class FormCustos extends Component
 {
 
-    public $search_id, $mode;
+    public $search_id, $search_id_carga, $search_id_veiculo, $mode;
+
+
+    public $id,
+        $litros,
+        $valor_litro,
+        $combustivel,
+        $kimometros,
+        $pedagio,
+        $despesas,
+        $descarga,
+        $manutencao,
+        $data_manutencao,
+        $carga_id,
+        $veiculo_id;
 
     protected $listeners = [
         'search_id' => 'setIdModel',
@@ -18,11 +32,9 @@ class FormCustos extends Component
     {
         $this->mode = $mode;
         if ($this->mode == 'veiculo')
-            dump('entrouaki' . $this->mode);
-        else
-            dump('entrouaki no else' . $this->mode);
-
-        $this->search_id = $search_id;
+            $this->search_id_veiculo = $search_id;
+        if ($this->mode == 'carga')
+            $this->search_id_carga = $search_id;
     }
 
 
