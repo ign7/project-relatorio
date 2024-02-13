@@ -14,7 +14,7 @@ class SearchDropdown extends Component
     public $mode;
     public $modelClassName;
     public $contacts;
-    public $highlightIndex, $atributte, $searchFilter,$column;
+    public $highlightIndex, $atributte, $searchFilter, $column;
 
     public function mount($modelClassName)
     {
@@ -47,14 +47,14 @@ class SearchDropdown extends Component
         $this->highlightIndex--;
     }
 
- public function selectContact()
-{
-    $contact = $this->contacts[$this->highlightIndex] ?? null;
-    if ($contact) {
-        $this->atributte = $contact[$this->column] ?? null;
-        $this->searchFilter = $contact['id'];
+    public function selectContact()
+    {
+        $contact = $this->contacts[$this->highlightIndex] ?? null;
+        if ($contact) {
+            $this->atributte = $contact[$this->column] ?? null;
+            $this->searchFilter = $contact['id'];
+        }
     }
-}
 
 
     public function selectClickContact($contactId)
@@ -66,7 +66,7 @@ class SearchDropdown extends Component
             $this->searchFilter = $contact['id'];
             $this->clear();
         }
-        $this->dispatch('search_id',$this->searchFilter,$this->mode);
+        $this->dispatch('search_id', $this->searchFilter, $this->mode);
     }
 
     public function clear()
@@ -80,6 +80,7 @@ class SearchDropdown extends Component
     {
         $modelClass = App::make($this->modelClassName);
         $this->contacts = $modelClass::where($this->column, 'like', '%' . $this->query . '%')
+            ->limit(20)
             ->get()
             ->toArray();
     }

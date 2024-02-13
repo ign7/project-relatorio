@@ -65,7 +65,7 @@
                     <div class="flex flex-col gap-2 pl-4 w-1/3 ">
                         <x-label for="selectuser" class="">Veiculo:</x-label>
                         <livewire:search-dropdown :modelClassName="'App\Models\Veiculo'" :column="'name'" :mode="'veiculo'" />
-                            @error('veiculo_id')
+                            @error('search_id_veiculo')
                                 <span class="text-red-500">{{ $message }}</span>
                             @enderror
                         </select>
@@ -79,9 +79,6 @@
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
-                @error('titulo')
-                    <span class="text-red-500">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="flex py-2">
@@ -136,8 +133,8 @@
             <div class="flex py-2">
                 <div class="flex flex-col gap-2 w-1/3 pr-4  ">
                     <x-label for="inicaldatePicked" class="">Despesa:</x-label>
-                    <x-input value="" class="rounded-md" type="number" wire:model.live="despesa" />
-                    @error('despesa')
+                    <x-input value="" class="rounded-md" type="number" wire:model.live="despesas" />
+                    @error('despesas')
                         <span class="text-red-500">{{ $message }}</span>
                     @enderror
                 </div>

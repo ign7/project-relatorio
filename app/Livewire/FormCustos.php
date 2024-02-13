@@ -29,6 +29,14 @@ class FormCustos extends Component
 
     protected  $service;
 
+    public function rules(){
+        return $rules =[
+            'titulo'=>'required',
+            'descricao' =>'required',
+            'search_id_veiculo'=>'required'
+        ];
+    }
+
     public function mount(CustoService $service)
     {
         $this->service = $service;
@@ -54,6 +62,9 @@ class FormCustos extends Component
 
     public function save()
     {
+
+        $this->validate();
+
         $atributos = [
             'litros' => $this->litros,
             'titulo'=>$this->titulo,
