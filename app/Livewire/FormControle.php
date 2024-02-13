@@ -19,7 +19,7 @@ class FormControle extends Component
     public function activepedido()
     {
         if (!$this->flagpedidos)
-            $this->flagpedidos = true;
+            return  $this->flagpedidos = true;
 
         return $this->flagpedidos = false;
     }
