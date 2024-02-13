@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('custos', function (Blueprint $table) {
             $table->id();
             $table->float('litros')->nullable();
+            $table->string('descricao')->nullable();
+            $table->string('titulo')->nullable();
             $table->float('valor_litro')->nullable();
             $table->float('combustivel')->nullable();
             $table->float('kimometros')->nullable();
@@ -22,7 +24,7 @@ return new class extends Migration
             $table->float('descarga')->nullable();
             $table->float('manutencao')->nullable();
             $table->string('data_manutencao')->nullable();
-            $table->foreignId('carga_id')->constrained('cargas')->nullable();
+            $table->foreignId('carga_id')->nullable()->constrained('cargas');
             $table->foreignId('veiculo_id')->constrained('veiculos');
             $table->timestamps();
         });

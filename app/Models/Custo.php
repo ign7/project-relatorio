@@ -13,6 +13,8 @@ class Custo extends Model
 
     protected $fillable = [
         'id',
+        'titulo',
+        'descricao',
         'litros',
         'valor_litro',
         'combustivel',
